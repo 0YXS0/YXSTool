@@ -22,11 +22,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\YXSFocTool\YXSFocTool.csproj" />
+    <Folder Include="Behavior\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Behavior\" />
+    <ProjectReference Include="..\YXSFocTool\YXSFocTool.csproj" />
   </ItemGroup>
 
 </Project>
