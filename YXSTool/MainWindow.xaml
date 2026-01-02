@@ -37,11 +37,8 @@
         <TabItem Header="FocTool">
             <FocTool:FocToolPage />
         </TabItem>
-        <TabItem Header="FocTool">
-            <FocTool:FocToolPage />
-        </TabItem>
-        <TabItem Header="FocTool">
-            <FocTool:FocToolPage />
+        <TabItem Header="Test">
+            <Grid />
         </TabItem>
     </TabControl>
 </Window>

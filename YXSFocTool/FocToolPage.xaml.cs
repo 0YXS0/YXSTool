@@ -10,5 +10,6 @@ public partial class FocToolPage : UserControl
     public FocToolPage( )
     {
         InitializeComponent( );
+        this.MouseMove += (_, e) => e.Handled = true;
     }
 }
