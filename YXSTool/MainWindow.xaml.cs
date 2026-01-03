@@ -1,4 +1,4 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Input;
 namespace YXSTool;
 
@@ -11,6 +11,22 @@ public partial class MainWindow : Window
     {
         InitializeComponent( );
         this.MouseMove += (s, e) => { if(e.LeftButton == MouseButtonState.Pressed) this.DragMove( ); };
+        this.MouseDoubleClick += MainWindow_MouseDoubleClick;
+    }
+
+    private void MainWindow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    {
+        if(e.ChangedButton == MouseButton.Left)
+        {
+            if(this.WindowState != WindowState.Maximized)
+            {
+                this.WindowState = WindowState.Maximized; // 最大化窗口
+            }
+            else
+            {
+                this.WindowState = WindowState.Normal;    // 恢复窗口
+            }
+        }
     }
 
     private void CloseButton_Click(object sender, RoutedEventArgs e)

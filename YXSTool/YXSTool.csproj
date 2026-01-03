@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Behavior\**" />
+    <EmbeddedResource Remove="Behavior\**" />
+    <None Remove="Behavior\**" />
+    <Page Remove="Behavior\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="icon_256x256.ico" />
   </ItemGroup>
 
@@ -19,10 +26,6 @@
     <PackageReference Include="Serilog" Version="4.3.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Behavior\" />
   </ItemGroup>
 
   <ItemGroup>
