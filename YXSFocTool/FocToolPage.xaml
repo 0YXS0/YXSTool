@@ -5,6 +5,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:ikw="http://schemas.inkore.net/lib/ui/wpf"
   xmlns:local="clr-namespace:YXSFocTool"
+  xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
   d:Height="600"
@@ -30,7 +31,7 @@
     <!--  内容区：左侧功能区 + 右侧图表区  -->
     <Grid Grid.Row="0">
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="320" MinWidth="320" />
+        <ColumnDefinition Width="260" MinWidth="260" />
         <ColumnDefinition Width="Auto" />
         <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
@@ -149,16 +150,23 @@
                               <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <TextBlock
+                              Grid.Row="0"
                               Grid.Column="0"
                               Margin="8,2"
                               HorizontalAlignment="Stretch"
                               VerticalAlignment="Center"
+                              Foreground="Gray"
                               Text="请选择Bootloader文件" />
                             <Button Grid.Column="1" Content="浏览" />
                           </Grid>
                         </Border>
-                        <Button Grid.Column="1" Content="更新" />
+                        <Button Grid.Row="0" Grid.Column="1" Content="更新" />
                       </Grid>
+                      <ui:ProgressBar
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="0,2,2,2" />
                     </ikw:SimpleStackPanel>
                   </Border>
 
@@ -347,7 +355,7 @@
                         Grid.Column="0"
                         Margin="0,0,8,0"
                         VerticalAlignment="Center"
-                        Text="自动更新周期:" />
+                        Text="更新周期:" />
                       <ui:NumberBox
                         Grid.Column="1"
                         HorizontalAlignment="Stretch"
@@ -492,15 +500,7 @@
           BorderBrush="#33000000"
           BorderThickness="1"
           CornerRadius="2">
-          <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <Canvas
-              x:Name="ChartCanvas"
-              MinWidth="400"
-              MinHeight="200"
-              Background="#FF1E1E1E">
-              <!--  在代码中添加 Polyline/Path 等图元绘制数据  -->
-            </Canvas>
-          </ScrollViewer>
+          <lvc:CartesianChart />
         </Border>
 
         <!--  输出字符命令行  -->

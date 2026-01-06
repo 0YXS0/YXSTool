@@ -1,44 +1,44 @@
-﻿<Window
-    x:Class="YXSTool.MainWindow"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:FocTool="clr-namespace:YXSFocTool;assembly=YXSFocTool"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-    xmlns:ikw="http://schemas.inkore.net/lib/ui/wpf"
-    xmlns:local="clr-namespace:YXSTool"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
-    Title="YXSTool"
-    Width="1024"
-    Height="600"
-    ui:TitleBar.Height="0"
-    ui:WindowHelper.SystemBackdropType="Mica"
-    ui:WindowHelper.UseModernWindowStyle="True"
-    WindowStartupLocation="CenterScreen"
-    WindowStyle="None"
-    mc:Ignorable="d">
-    <TabControl>
-        <ui:TabControlHelper.TabStripFooter>
-            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <ui:TitleBarButton Click="MinimizeButton_Click">
-                    <ui:TitleBarButton.Content>
-                        <ui:FontIcon FontSize="12" Icon="{x:Static ui:SegoeFluentIcons.ChromeMinimize}" />
-                    </ui:TitleBarButton.Content>
-                </ui:TitleBarButton>
-                <ui:TitleBarButton Click="CloseButton_Click">
-                    <ui:TitleBarButton.Content>
-                        <ui:FontIcon FontSize="12" Icon="{x:Static ui:SegoeFluentIcons.ChromeClose}" />
-                    </ui:TitleBarButton.Content>
-                </ui:TitleBarButton>
-            </StackPanel>
-        </ui:TabControlHelper.TabStripFooter>
+<Window
+  x:Class="YXSTool.MainWindow"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:FocTool="clr-namespace:YXSFocTool;assembly=YXSFocTool"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+  xmlns:ikw="http://schemas.inkore.net/lib/ui/wpf"
+  xmlns:local="clr-namespace:YXSTool"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+  Title="YXSTool"
+  Width="1024"
+  Height="600"
+  ui:TitleBar.Height="0"
+  ui:WindowHelper.SystemBackdropType="Mica"
+  ui:WindowHelper.UseModernWindowStyle="True"
+  WindowStartupLocation="CenterScreen"
+  WindowStyle="None"
+  mc:Ignorable="d">
+  <TabControl MouseDoubleClick="TabControl_MouseDoubleClick" MouseMove="TabControl_MouseMove">
+    <ui:TabControlHelper.TabStripFooter>
+      <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+        <ui:TitleBarButton Click="MinimizeButton_Click">
+          <ui:TitleBarButton.Content>
+            <ui:FontIcon FontSize="12" Icon="{x:Static ui:SegoeFluentIcons.ChromeMinimize}" />
+          </ui:TitleBarButton.Content>
+        </ui:TitleBarButton>
+        <ui:TitleBarButton Click="CloseButton_Click">
+          <ui:TitleBarButton.Content>
+            <ui:FontIcon FontSize="12" Icon="{x:Static ui:SegoeFluentIcons.ChromeClose}" />
+          </ui:TitleBarButton.Content>
+        </ui:TitleBarButton>
+      </StackPanel>
+    </ui:TabControlHelper.TabStripFooter>
 
-        <TabItem Header="FocTool">
-            <FocTool:FocToolPage />
-        </TabItem>
-        <TabItem Header="Test">
-            <Grid />
-        </TabItem>
-    </TabControl>
+    <TabItem Header="FocTool">
+      <FocTool:FocToolPage />
+    </TabItem>
+    <TabItem Header="Test">
+      <Grid />
+    </TabItem>
+  </TabControl>
 </Window>

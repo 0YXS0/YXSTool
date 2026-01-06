@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 namespace YXSTool;
 
 /// <summary>
@@ -10,13 +11,13 @@ public partial class MainWindow : Window
     public MainWindow( )
     {
         InitializeComponent( );
-        this.MouseMove += (s, e) => { if(e.LeftButton == MouseButtonState.Pressed) this.DragMove( ); };
-        this.MouseDoubleClick += MainWindow_MouseDoubleClick;
     }
 
-    private void MainWindow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    private void TabControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
-        if(e.ChangedButton == MouseButton.Left)
+        var temp = VisualTreeHelper.GetParent(e.OriginalSource as DependencyObject);
+        temp = VisualTreeHelper.GetParent(temp);
+        if(temp == sender && e.ChangedButton == MouseButton.Left)
         {
             if(this.WindowState != WindowState.Maximized)
             {
@@ -28,6 +29,17 @@ public partial class MainWindow : Window
             }
         }
     }
+
+    private void TabControl_MouseMove(object sender, MouseEventArgs e)
+    {
+        var temp = VisualTreeHelper.GetParent(e.OriginalSource as DependencyObject);
+        temp = VisualTreeHelper.GetParent(temp);
+        if(temp == sender && e.LeftButton == MouseButtonState.Pressed)
+        {
+            this.DragMove( );
+        }
+    }
+
 
     private void CloseButton_Click(object sender, RoutedEventArgs e)
     {
