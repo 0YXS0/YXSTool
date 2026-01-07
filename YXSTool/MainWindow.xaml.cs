@@ -11,6 +11,7 @@ public partial class MainWindow : Window
     public MainWindow( )
     {
         InitializeComponent( );
+        this.MouseDown += (_, _) => { Keyboard.ClearFocus( ); };
     }
 
     private void TabControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)

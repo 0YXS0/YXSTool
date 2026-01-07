@@ -11,7 +11,7 @@
   xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
   Title="YXSTool"
   Width="1024"
-  Height="600"
+  Height="720"
   ui:TitleBar.Height="0"
   ui:WindowHelper.SystemBackdropType="Mica"
   ui:WindowHelper.UseModernWindowStyle="True"

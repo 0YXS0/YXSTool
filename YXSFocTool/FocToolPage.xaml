@@ -155,8 +155,9 @@
                               Margin="8,2"
                               HorizontalAlignment="Stretch"
                               VerticalAlignment="Center"
+                              FontSize="12"
                               Foreground="Gray"
-                              Text="请选择Bootloader文件" />
+                              Text="选择bin文件" />
                             <Button Grid.Column="1" Content="浏览" />
                           </Grid>
                         </Border>
@@ -176,23 +177,60 @@
                     BorderBrush="#33000000"
                     BorderThickness="1"
                     CornerRadius="4">
-                    <Grid>
-                      <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                      </Grid.ColumnDefinitions>
-                      <TextBlock
+                    <ikw:SimpleStackPanel Margin="2,0,0,0">
+                      <Grid>
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="Auto" />
+                          <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock
+                          Grid.Column="0"
+                          Margin="0,0,8,0"
+                          VerticalAlignment="Center"
+                          Text="Framware版本:" />
+                        <TextBlock
+                          Grid.Column="1"
+                          Margin="0,2,0,2"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Center"
+                          Text="-" />
+                      </Grid>
+                      <Grid>
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="*" />
+                          <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Border
+                          Grid.Column="0"
+                          Margin="0,0,2,0"
+                          BorderBrush="#33000000"
+                          BorderThickness="1"
+                          CornerRadius="4">
+                          <Grid>
+                            <Grid.ColumnDefinitions>
+                              <ColumnDefinition Width="*" />
+                              <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                              Grid.Row="0"
+                              Grid.Column="0"
+                              Margin="8,2"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Center"
+                              FontSize="12"
+                              Foreground="Gray"
+                              Text="选择bin文件" />
+                            <Button Grid.Column="1" Content="浏览" />
+                          </Grid>
+                        </Border>
+                        <Button Grid.Row="0" Grid.Column="1" Content="更新" />
+                      </Grid>
+                      <ui:ProgressBar
+                        Grid.Row="1"
                         Grid.Column="0"
-                        Margin="0,0,8,0"
-                        VerticalAlignment="Center"
-                        Text="Firmware版本:" />
-                      <TextBlock
-                        Grid.Column="1"
-                        Margin="0,2,0,2"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Center"
-                        Text="-" />
-                    </Grid>
+                        Grid.ColumnSpan="2"
+                        Margin="0,2,2,2" />
+                    </ikw:SimpleStackPanel>
                   </Border>
                 </ikw:SimpleStackPanel>
               </Expander.Content>
@@ -441,67 +479,86 @@
         ShowsPreview="False" />
 
       <!--  右侧图表区  -->
-      <Grid Grid.Column="2" Margin="4,8,4,4">
+      <Grid Grid.Column="2" Margin="4">
         <Grid.RowDefinitions>
-          <RowDefinition Height="Auto" />
           <RowDefinition Height="*" />
           <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
-        <!--  图表控制区  -->
-        <Grid Grid.Row="0" Margin="0,0,0,8">
-          <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
-            <ToggleButton
-              x:Name="BtnPlotToggle"
-              Width="90"
-              Margin="0,0,8,0"
-              Content="开始画图"
-              ToolTip="开始/暂停绘图" />
-            <Button
-              x:Name="BtnClearChart"
-              Width="70"
-              Margin="0,0,8,0"
-              Content="清空"
-              ToolTip="清空图表数据" />
-          </StackPanel>
-
-          <WrapPanel
-            HorizontalAlignment="Right"
-            DockPanel.Dock="Right"
-            ItemHeight="26"
-            ItemWidth="100">
-            <CheckBox
-              x:Name="ChkData1"
-              Margin="0,0,8,0"
-              Content="数据1"
-              IsChecked="True" />
-            <CheckBox
-              x:Name="ChkData2"
-              Margin="0,0,8,0"
-              Content="数据2"
-              IsChecked="True" />
-            <CheckBox
-              x:Name="ChkData3"
-              Margin="0,0,8,0"
-              Content="数据3"
-              IsChecked="False" />
-            <CheckBox
-              x:Name="ChkData4"
-              Margin="0,0,8,0"
-              Content="数据4"
-              IsChecked="False" />
-          </WrapPanel>
-        </Grid>
-
-        <!--  折线图画布  -->
+        <!--  折线图区域  -->
         <Border
-          Grid.Row="1"
-          Background="#FF0F0F0F"
+          Grid.Row="0"
           BorderBrush="#33000000"
           BorderThickness="1"
-          CornerRadius="2">
-          <lvc:CartesianChart />
+          CornerRadius="4">
+          <Expander Margin="2,0,2,2" ExpandDirection="Down" IsExpanded="True">
+            <Expander.Header>
+              <TextBlock FontSize="20" Text="画图区:" />
+            </Expander.Header>
+            <Expander.Content>
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <!--  图表控制区  -->
+                <Grid Grid.Row="0" Margin="0,0,0,2">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                  </Grid.ColumnDefinitions>
+                  <StackPanel Grid.Column="0" DockPanel.Dock="Left" Orientation="Horizontal">
+                    <ToggleButton
+                      x:Name="BtnPlotToggle"
+                      Width="90"
+                      Margin="0,0,8,0"
+                      Content="开始画图"
+                      ToolTip="开始/暂停绘图" />
+                    <Button
+                      x:Name="BtnClearChart"
+                      Width="70"
+                      Margin="0,0,8,0"
+                      Content="清空"
+                      ToolTip="清空图表数据" />
+                  </StackPanel>
+
+                  <WrapPanel
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    DockPanel.Dock="Right"
+                    ItemHeight="26"
+                    ItemWidth="100">
+                    <CheckBox Margin="0,0,8,0" Content="数据1" IsChecked="True" />
+                    <CheckBox Margin="0,0,8,0" Content="数据2" IsChecked="True" />
+                    <CheckBox Margin="0,0,8,0" Content="数据3" IsChecked="False" />
+                    <CheckBox Margin="0,0,8,0" Content="数据4" IsChecked="False" />
+                  </WrapPanel>
+                </Grid>
+
+                <!--  折线图画布  -->
+                <Border
+                  Grid.Row="1"
+                  Background="#FF0F0F0F"
+                  BorderBrush="#33000000"
+                  BorderThickness="1"
+                  CornerRadius="2">
+                  <lvc:CartesianChart />
+                </Border>
+              </Grid>
+            </Expander.Content>
+          </Expander>
         </Border>
+
+        <!--  上下分隔条  -->
+        <GridSplitter
+          Grid.Row="1"
+          Height="3"
+          Margin="0,2,0,0"
+          HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch"
+          Background="#22000000"
+          ResizeDirection="Rows"
+          ShowsPreview="False" />
 
         <!--  输出字符命令行  -->
         <Border
@@ -511,39 +568,43 @@
           BorderBrush="#33000000"
           BorderThickness="1"
           CornerRadius="4">
-          <Grid Margin="2">
-            <Grid.RowDefinitions>
-              <RowDefinition Height="Auto" />
-              <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+          <Expander Margin="2,0,2,0" ExpandDirection="Down" IsExpanded="True">
+            <Expander.Header>
+              <TextBlock FontSize="20" Text="输出:" />
+            </Expander.Header>
+            <Expander.Content>
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="*" />
+                  <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <!--  字符输出区  -->
+                <TextBox
+                  Grid.Row="0"
+                  MinHeight="150"
+                  VerticalAlignment="Stretch"
+                  ui:ControlHelper.CornerRadius="0"
+                  FontSize="14"
+                  IsReadOnly="True"
+                  Text="该上位机适用YXS-FOC的调试"
+                  VerticalScrollBarVisibility="Auto" />
 
-            <Grid Grid.Row="0">
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-              </Grid.ColumnDefinitions>
-              <TextBlock Grid.Column="0" FontSize="20" Text="输出:" />
-              <StackPanel
-                Grid.Column="1"
-                Margin="0,0,0,0"
-                HorizontalAlignment="Right"
-                Orientation="Horizontal">
-                <Button Width="60" Content="清空" />
-              </StackPanel>
-            </Grid>
-
-            <TextBox
-              Grid.Row="1"
-              MinHeight="90"
-              AcceptsReturn="True"
-              AcceptsTab="True"
-              FontSize="14"
-              HorizontalScrollBarVisibility="Auto"
-              IsReadOnly="True"
-              Text="该上位机适用YXS-FOC的调试"
-              TextWrapping="NoWrap"
-              VerticalScrollBarVisibility="Auto" />
-          </Grid>
+                <!--  字符发送区  -->
+                <Grid Grid.Row="1">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                  </Grid.ColumnDefinitions>
+                  <TextBox Grid.Column="0" HorizontalAlignment="Stretch" FontSize="14" />
+                  <Button
+                    Grid.Column="1"
+                    Width="80"
+                    VerticalAlignment="Stretch"
+                    Content="发送" />
+                </Grid>
+              </Grid>
+            </Expander.Content>
+          </Expander>
         </Border>
       </Grid>
     </Grid>
