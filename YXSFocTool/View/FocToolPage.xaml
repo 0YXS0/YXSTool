@@ -8,6 +8,8 @@
   xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+  xmlns:vm="clr-namespace:YXSFocTool.ViewModel"
+  d:DataContext="{d:DesignInstance Type=vm:FocToolViewModel}"
   d:Height="600"
   d:Width="1024"
   Background="White"
@@ -481,9 +483,9 @@
       <!--  右侧图表区  -->
       <Grid Grid.Column="2" Margin="4">
         <Grid.RowDefinitions>
-          <RowDefinition Height="*" />
+          <RowDefinition Height="{Binding ChartRowHeight, Mode=TwoWay}" />
           <RowDefinition Height="Auto" />
-          <RowDefinition Height="Auto" />
+          <RowDefinition Height="{Binding OutputRowHeight, Mode=TwoWay}" />
         </Grid.RowDefinitions>
         <!--  折线图区域  -->
         <Border
@@ -491,54 +493,42 @@
           BorderBrush="#33000000"
           BorderThickness="1"
           CornerRadius="4">
-          <Expander Margin="2,0,2,2" ExpandDirection="Down" IsExpanded="True">
+          <Expander Margin="2,0,2,2" ExpandDirection="Down" IsExpanded="{Binding IsChartExpanded}">
             <Expander.Header>
               <TextBlock FontSize="20" Text="画图区:" />
             </Expander.Header>
             <Expander.Content>
               <Grid>
-                <Grid.RowDefinitions>
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
                 <!--  图表控制区  -->
-                <Grid Grid.Row="0" Margin="0,0,0,2">
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                  </Grid.ColumnDefinitions>
-                  <StackPanel Grid.Column="0" DockPanel.Dock="Left" Orientation="Horizontal">
-                    <ToggleButton
-                      x:Name="BtnPlotToggle"
-                      Width="90"
-                      Margin="0,0,8,0"
-                      Content="开始画图"
-                      ToolTip="开始/暂停绘图" />
-                    <Button
-                      x:Name="BtnClearChart"
-                      Width="70"
-                      Margin="0,0,8,0"
-                      Content="清空"
-                      ToolTip="清空图表数据" />
-                  </StackPanel>
-
-                  <WrapPanel
-                    Grid.Column="1"
-                    HorizontalAlignment="Right"
-                    DockPanel.Dock="Right"
-                    ItemHeight="26"
-                    ItemWidth="100">
-                    <CheckBox Margin="0,0,8,0" Content="数据1" IsChecked="True" />
-                    <CheckBox Margin="0,0,8,0" Content="数据2" IsChecked="True" />
-                    <CheckBox Margin="0,0,8,0" Content="数据3" IsChecked="False" />
-                    <CheckBox Margin="0,0,8,0" Content="数据4" IsChecked="False" />
-                  </WrapPanel>
-                </Grid>
+                <Border
+                  Grid.Column="1"
+                  BorderBrush="#33000000"
+                  BorderThickness="1"
+                  CornerRadius="2">
+                  <Expander Margin="2" ExpandDirection="Left" IsExpanded="False">
+                    <Expander.Header>
+                      <TextBlock FontSize="16" Text="{Binding ChartControlHeader, Mode=OneTime}" />
+                    </Expander.Header>
+                    <Expander.Content>
+                      <ScrollViewer Margin="4,0,0,0">
+                        <ikw:SimpleStackPanel>
+                          <CheckBox Content="电流Iq" />
+                          <CheckBox Content="电流Id" />
+                          <CheckBox Content="速度" />
+                          <CheckBox Content="位置" />
+                        </ikw:SimpleStackPanel>
+                      </ScrollViewer>
+                    </Expander.Content>
+                  </Expander>
+                </Border>
 
                 <!--  折线图画布  -->
                 <Border
-                  Grid.Row="1"
-                  Background="#FF0F0F0F"
+                  Grid.Column="0"
                   BorderBrush="#33000000"
                   BorderThickness="1"
                   CornerRadius="2">
@@ -554,8 +544,6 @@
           Grid.Row="1"
           Height="3"
           Margin="0,2,0,0"
-          HorizontalAlignment="Stretch"
-          VerticalAlignment="Stretch"
           Background="#22000000"
           ResizeDirection="Rows"
           ShowsPreview="False" />
@@ -568,9 +556,9 @@
           BorderBrush="#33000000"
           BorderThickness="1"
           CornerRadius="4">
-          <Expander Margin="2,0,2,0" ExpandDirection="Down" IsExpanded="True">
+          <Expander Margin="2,0,2,0" ExpandDirection="Down" IsExpanded="{Binding IsOutputExpanded}">
             <Expander.Header>
-              <TextBlock FontSize="20" Text="输出:" />
+              <TextBlock FontSize="20" Text="输出区:" />
             </Expander.Header>
             <Expander.Content>
               <Grid>

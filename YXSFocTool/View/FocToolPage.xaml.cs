@@ -1,4 +1,5 @@
 using System.Windows.Controls;
+using YXSFocTool.ViewModel;
 
 namespace YXSFocTool;
 
@@ -7,8 +8,10 @@ namespace YXSFocTool;
 /// </summary>
 public partial class FocToolPage : UserControl
 {
+    internal FocToolViewModel ViewModel { get; } = new( );
     public FocToolPage( )
     {
         InitializeComponent( );
+        this.DataContext = ViewModel;
     }
 }
