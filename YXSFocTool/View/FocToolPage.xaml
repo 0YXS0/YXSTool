@@ -3,6 +3,7 @@
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
   xmlns:ikw="http://schemas.inkore.net/lib/ui/wpf"
   xmlns:local="clr-namespace:YXSFocTool"
   xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
@@ -49,11 +50,11 @@
               ExpandDirection="Down"
               IsExpanded="True">
               <Expander.Header>
-                <TextBlock FontSize="20" Text="连接设置:" />
+                <Label Content="连接设置:" FontSize="20" />
               </Expander.Header>
               <Expander.Content>
                 <ikw:SimpleStackPanel Margin="4,0,2,2" Orientation="Vertical">
-                  <ToggleButton HorizontalAlignment="Stretch" Content="连接设备" />
+                  <ToggleButton HorizontalAlignment="Stretch" Content="开启连接" IsChecked="{Binding IsConnected, Mode=TwoWay}" />
                   <Grid Margin="8,2,0,0">
                     <Grid.ColumnDefinitions>
                       <ColumnDefinition Width="Auto" />
@@ -64,7 +65,11 @@
                       Margin="0,0,8,0"
                       VerticalAlignment="Center"
                       Text="串口号:" />
-                    <ComboBox Grid.Column="1" HorizontalAlignment="Stretch" SelectedIndex="1" />
+                    <ComboBox
+                      Grid.Column="1"
+                      HorizontalAlignment="Stretch"
+                      ItemsSource="{Binding SerialPortList}"
+                      SelectedIndex="{Binding SelectedSerialPortIndex, Mode=TwoWay}" />
                   </Grid>
                   <Grid Margin="8,2,0,0">
                     <Grid.ColumnDefinitions>
@@ -80,7 +85,8 @@
                       Grid.Column="1"
                       HorizontalAlignment="Stretch"
                       IsEditable="True"
-                      SelectedIndex="1" />
+                      ItemsSource="{Binding BaudRateList}"
+                      SelectedIndex="{Binding SelectedBaudRateIndex, Mode=TwoWay}" />
                   </Grid>
                   <Grid Margin="8,2,0,0">
                     <Grid.ColumnDefinitions>
@@ -95,8 +101,8 @@
                     <ComboBox
                       Grid.Column="1"
                       HorizontalAlignment="Stretch"
-                      IsEditable="True"
-                      SelectedIndex="1" />
+                      ItemsSource="{Binding DeviceIDList}"
+                      SelectedIndex="{Binding SelectedDeviceIDIndex, Mode=TwoWay}" />
                   </Grid>
                 </ikw:SimpleStackPanel>
               </Expander.Content>
@@ -111,7 +117,7 @@
             CornerRadius="4">
             <Expander Margin="4,0,0,0" HorizontalAlignment="Stretch" ExpandDirection="Down">
               <Expander.Header>
-                <TextBlock FontSize="20" Text="固件信息:" />
+                <Label Content="固件信息:" FontSize="20" />
               </Expander.Header>
               <Expander.Content>
                 <ikw:SimpleStackPanel Margin="8,0,2,0" IsEnabled="True">
@@ -133,7 +139,7 @@
                           Margin="0,2,0,2"
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Center"
-                          Text="-" />
+                          Text="{Binding DeviceBootloaderVersion}" />
                       </Grid>
                       <Grid>
                         <Grid.ColumnDefinitions>
@@ -159,7 +165,7 @@
                               VerticalAlignment="Center"
                               FontSize="12"
                               Foreground="Gray"
-                              Text="选择bin文件" />
+                              Text="{Binding DeviceBootloaderFilePath}" />
                             <Button Grid.Column="1" Content="浏览" />
                           </Grid>
                         </Border>
@@ -195,7 +201,7 @@
                           Margin="0,2,0,2"
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Center"
-                          Text="-" />
+                          Text="{Binding DeviceFirmwareVersion}" />
                       </Grid>
                       <Grid>
                         <Grid.ColumnDefinitions>
@@ -221,7 +227,7 @@
                               VerticalAlignment="Center"
                               FontSize="12"
                               Foreground="Gray"
-                              Text="选择bin文件" />
+                              Text="{Binding DeviceFirmwareFilePath}" />
                             <Button Grid.Column="1" Content="浏览" />
                           </Grid>
                         </Border>
@@ -247,7 +253,7 @@
             CornerRadius="4">
             <Expander Margin="4,0,0,0" HorizontalAlignment="Stretch" ExpandDirection="Down">
               <Expander.Header>
-                <TextBlock FontSize="20" Text="PID调参:" />
+                <Label Content="PID调参:" FontSize="20" />
               </Expander.Header>
               <Expander.Content>
                 <ikw:SimpleStackPanel Margin="8,0,2,0" IsEnabled="True">
@@ -264,12 +270,32 @@
                     <ui:ToggleSplitButton
                       Grid.Column="1"
                       HorizontalAlignment="Stretch"
-                      Content="自动赋值"
+                      IsChecked="{Binding IsEnablePIDDebug}"
                       ToolTip="开启/关闭PID调参">
+                      <ui:ToggleSplitButton.Style>
+                        <Style TargetType="ui:ToggleSplitButton">
+                          <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsEnableAtuoPID}" Value="True">
+                              <Setter Property="Content" Value="自动赋值" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsEnableAtuoPID}" Value="False">
+                              <Setter Property="Content" Value="手动赋值" />
+                            </DataTrigger>
+                          </Style.Triggers>
+                        </Style>
+                      </ui:ToggleSplitButton.Style>
                       <ui:ToggleSplitButton.Flyout>
                         <ui:MenuFlyout Placement="BottomEdgeAlignedRight">
-                          <MenuItem Header="自动赋值" ToolTip="当PID数值发生改变时自动向设备发送数据" />
-                          <MenuItem Header="手动赋值" ToolTip="只有点击按钮时才会将PID数值发送给设备" />
+                          <MenuItem
+                            Command="{Binding SetPIDAutoModeCommand}"
+                            CommandParameter="True"
+                            Header="自动赋值"
+                            ToolTip="当PID数值发生改变时自动向设备发送数据" />
+                          <MenuItem
+                            Command="{Binding SetPIDAutoModeCommand}"
+                            CommandParameter="False"
+                            Header="手动赋值"
+                            ToolTip="只有点击按钮时才会将PID数值发送给设备" />
                         </ui:MenuFlyout>
                       </ui:ToggleSplitButton.Flyout>
                     </ui:ToggleSplitButton>
@@ -290,7 +316,7 @@
                       Grid.Column="1"
                       Margin="0,0,2,0"
                       HorizontalAlignment="Stretch"
-                      SelectedIndex="0"
+                      SelectedIndex="{Binding SelectedPIDIndex}"
                       ToolTip="选择要调节的 PID 环路/对象">
                       <ComboBoxItem Content="电流环 Id" />
                       <ComboBoxItem Content="电流环 Iq" />
@@ -374,7 +400,7 @@
               ExpandDirection="Down"
               IsExpanded="True">
               <Expander.Header>
-                <TextBlock FontSize="20" Text="设备信息:" />
+                <Label Content="设备信息:" FontSize="20" />
               </Expander.Header>
               <Expander.Content>
                 <ikw:SimpleStackPanel Margin="4,0,2,0">
@@ -495,7 +521,7 @@
           CornerRadius="4">
           <Expander Margin="2,0,2,2" ExpandDirection="Down" IsExpanded="{Binding IsChartExpanded}">
             <Expander.Header>
-              <TextBlock FontSize="20" Text="画图区:" />
+              <Label Content="画图区:" FontSize="20" />
             </Expander.Header>
             <Expander.Content>
               <Grid>
@@ -558,7 +584,7 @@
           CornerRadius="4">
           <Expander Margin="2,0,2,0" ExpandDirection="Down" IsExpanded="{Binding IsOutputExpanded}">
             <Expander.Header>
-              <TextBlock FontSize="20" Text="输出区:" />
+              <Label Content="输出区:" FontSize="20" />
             </Expander.Header>
             <Expander.Content>
               <Grid>
@@ -607,20 +633,16 @@
 
         <!--  左侧：固件版本等信息  -->
         <StackPanel Grid.Column="0" Margin="8,0,0,0" Orientation="Horizontal">
-          <TextBlock Foreground="Gray" Text="固件: " />
-          <TextBlock Margin="4,0,16,0" Text="-" />
-          <TextBlock Foreground="Gray" Text="设备: " />
-          <TextBlock Margin="4,0,16,0" Text="-" />
-          <TextBlock Foreground="Gray" Text="状态: " />
-          <TextBlock Margin="4,0,16,0" Text="未连接" />
+          <Label Content="状态: " Foreground="Gray" />
+          <Label Margin="2,0,0,0" Content="未连接" />
         </StackPanel>
 
         <!--  右侧：发送/接收帧计数  -->
         <StackPanel Grid.Column="1" Margin="0,0,8,0" Orientation="Horizontal">
-          <TextBlock Foreground="Gray" Text="Tx: " />
-          <TextBlock Margin="4,0,16,0" Text="0" />
-          <TextBlock Foreground="Gray" Text="Rx: " />
-          <TextBlock Margin="4,0,0,0" Text="0" />
+          <Label Content="Tx: " Foreground="Gray" />
+          <Label Margin="4,0,16,0" Content="0" />
+          <Label Content="Rx: " Foreground="Gray" />
+          <Label Margin="4,0,0,0" Content="0" />
         </StackPanel>
       </Grid>
     </StatusBar>
