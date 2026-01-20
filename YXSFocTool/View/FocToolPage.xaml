@@ -139,7 +139,7 @@
                           Margin="0,2,0,2"
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Center"
-                          Text="{Binding DeviceBootloaderVersion}" />
+                          Text="{Binding BootloaderVersion, Mode=OneWay}" />
                       </Grid>
                       <Grid>
                         <Grid.ColumnDefinitions>
@@ -165,17 +165,22 @@
                               VerticalAlignment="Center"
                               FontSize="12"
                               Foreground="Gray"
-                              Text="{Binding DeviceBootloaderFilePath}" />
-                            <Button Grid.Column="1" Content="浏览" />
+                              Text="{Binding BootloaderFileName, Mode=OneWay}" />
+                            <Button Grid.Column="1" Command="{Binding SelectBootloaderFileCommand}" Content="浏览" />
                           </Grid>
                         </Border>
-                        <Button Grid.Row="0" Grid.Column="1" Content="更新" />
+                        <Button
+                          Grid.Row="0"
+                          Grid.Column="1"
+                          Command="{Binding UpdateBootloaderCommand}"
+                          Content="更新" />
                       </Grid>
                       <ui:ProgressBar
                         Grid.Row="1"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        Margin="0,2,2,2" />
+                        Margin="0,2,2,2"
+                        Value="{Binding BootloaderUpdateProgress, Mode=OneWay}" />
                     </ikw:SimpleStackPanel>
                   </Border>
 
@@ -201,7 +206,7 @@
                           Margin="0,2,0,2"
                           HorizontalAlignment="Stretch"
                           VerticalAlignment="Center"
-                          Text="{Binding DeviceFirmwareVersion}" />
+                          Text="{Binding FirmwareVersion, Mode=OneWay}" />
                       </Grid>
                       <Grid>
                         <Grid.ColumnDefinitions>
@@ -227,17 +232,22 @@
                               VerticalAlignment="Center"
                               FontSize="12"
                               Foreground="Gray"
-                              Text="{Binding DeviceFirmwareFilePath}" />
-                            <Button Grid.Column="1" Content="浏览" />
+                              Text="{Binding FirmwareFileName, Mode=OneWay}" />
+                            <Button Grid.Column="1" Command="{Binding SelectFirmwareFileCommand}" Content="浏览" />
                           </Grid>
                         </Border>
-                        <Button Grid.Row="0" Grid.Column="1" Content="更新" />
+                        <Button
+                          Grid.Row="0"
+                          Grid.Column="1"
+                          Command="{Binding UpdateFirmloaderCommand}"
+                          Content="更新" />
                       </Grid>
                       <ui:ProgressBar
                         Grid.Row="1"
                         Grid.Column="0"
                         Grid.ColumnSpan="2"
-                        Margin="0,2,2,2" />
+                        Margin="0,2,2,2"
+                        Value="{Binding FirmwareUpdateProgress, Mode=OneWay}" />
                     </ikw:SimpleStackPanel>
                   </Border>
                 </ikw:SimpleStackPanel>

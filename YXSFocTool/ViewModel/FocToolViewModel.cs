@@ -1,8 +1,11 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.IO.Ports;
 using System.Windows;
+using YXSFocTool.Model;
+using YXSFocTool.View;
 
 namespace YXSFocTool.ViewModel;
 
@@ -11,11 +14,8 @@ internal partial class FocToolViewModel : ObservableObject
     public FocToolViewModel( )
     {
         // 获取串口列表
-        var ports = SerialPort.GetPortNames( ).Order( );
-        foreach(var port in ports)
-        {
-            SerialPortList.Add(port);
-        }
+        var ports = SerialPort.GetPortNames( ).Order( ).ToList( );
+        ports?.ForEach(p => SerialPortList.Add(p));
     }
 
     public enum PIDInfoIndex
@@ -42,14 +42,66 @@ internal partial class FocToolViewModel : ObservableObject
     public ObservableCollection<int> DeviceIDList { get; } = [];
 
     [ObservableProperty]
-    private string m_DeviceBootloaderVersion = "-";
+    private string m_BootloaderVersion = "-";
+    public string BootloaderFilePath { get; private set; } = "";
     [ObservableProperty]
-    private string m_DeviceBootloaderFilePath = "选择bin文件";
+    private string m_BootloaderFileName = "选择bin文件";
+    [ObservableProperty]
+    private int m_BootloaderUpdateProgress = 0;
+    [RelayCommand]
+    private void SelectBootloaderFile( )
+    {
+        var openFileDialog = new Microsoft.Win32.OpenFileDialog
+        {
+            Filter = "Bin Files (*.bin)|*.bin",
+            Title = "选择Bootloader固件文件"
+        };
+        if(openFileDialog.ShowDialog( ) == true)
+        {
+            BootloaderFilePath = openFileDialog.FileName;
+            BootloaderFileName = Path.GetFileName(BootloaderFilePath);
+        }
+    }
+    [RelayCommand]
+    private async Task UpdateBootloader( )
+    {
+        if(!Path.Exists(BootloaderFilePath)) return;
+        var dialog = new UpdateFirmwarePage( );
+        dialog.ViewModel.FirmwareType = FirmwareType.Bootloader;
+        dialog.ViewModel.FirmwareFilePath = BootloaderFilePath;
+        await dialog.ShowAsync( );
+    }
 
     [ObservableProperty]
-    private string m_DeviceFirmwareVersion = "-";
+    private string m_FirmwareVersion = "-";
+    public string FirmwareFilePath { get; private set; } = "";
     [ObservableProperty]
-    private string m_DeviceFirmwareFilePath = "选择bin文件";
+    private string m_FirmwareFileName = "选择bin文件";
+    [ObservableProperty]
+    private int m_FirmwareUpdateProgress = 0;
+    [RelayCommand]
+    private void SelectFirmwareFile( )
+    {
+        var openFileDialog = new Microsoft.Win32.OpenFileDialog
+        {
+            Filter = "Bin Files (*.bin)|*.bin",
+            Title = "选择固件文件"
+        };
+        if(openFileDialog.ShowDialog( ) == true)
+        {
+            FirmwareFilePath = openFileDialog.FileName;
+            FirmwareFileName = Path.GetFileName(FirmwareFilePath);
+        }
+    }
+    [RelayCommand]
+    private async Task UpdateFirmloader( )
+    {
+        if(!Path.Exists(FirmwareFilePath)) return;
+        var dialog = new UpdateFirmwarePage( );
+        dialog.ViewModel.FirmwareType = FirmwareType.Firmware;
+        dialog.ViewModel.FirmwareFilePath = FirmwareFilePath;
+        await dialog.ShowAsync( );
+    }
 
     [ObservableProperty]
     private bool m_IsEnablePIDDebug = false;
