@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -6,7 +6,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>icon_256x256.ico</ApplicationIcon>
+    <ApplicationIcon>Resource\icon_256x256.ico</ApplicationIcon>
+    <StartupObject>YXSTool.View.App</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,15 +18,29 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="icon_256x256.ico" />
+    <Page Remove="Resource\TabControl.xaml" />
+    <Page Remove="View\App.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ApplicationDefinition Include="View\App.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Behavior\ShowContextMenuBehavior.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resource\icon_256x256.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Resource\TabControl.xaml" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="iNKORE.UI.WPF.Modern" Version="0.10.2.1" />
-    <PackageReference Include="Serilog" Version="4.3.0" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
-    <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>

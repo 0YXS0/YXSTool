@@ -2,11 +2,11 @@
   x:Class="YXSFocTool.FocToolPage"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:ScottPlot="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
   xmlns:ikw="http://schemas.inkore.net/lib/ui/wpf"
   xmlns:local="clr-namespace:YXSFocTool"
-  xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
   xmlns:vm="clr-namespace:YXSFocTool.ViewModel"
@@ -568,7 +568,7 @@
                   BorderBrush="#33000000"
                   BorderThickness="1"
                   CornerRadius="2">
-                  <lvc:CartesianChart />
+                  <ScottPlot:WpfPlot x:Name="WpfPlot1" />
                 </Border>
               </Grid>
             </Expander.Content>
