@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Remove="Resource\TabControl.xaml" />
     <Page Remove="View\App.xaml" />
   </ItemGroup>
 
@@ -34,8 +35,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Resource\TabControl.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-    <PackageReference Include="MaterialDesignThemes" Version="5.3.0" />
+    <PackageReference Include="iNKORE.UI.WPF.Modern" Version="0.10.2.1" />
   </ItemGroup>
 
   <ItemGroup>

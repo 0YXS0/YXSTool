@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MaterialDesignThemes.Wpf;
+using iNKORE.UI.WPF.Modern.Common.IconKeys;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using YXSFocTool;
@@ -9,10 +9,9 @@ namespace YXSTool.ViewModel;
 
 public partial class MainViewModel : ObservableObject
 {
-    public record TabItemViewModel(PackIconKind Icon, string Header, ContentControl Content);
-    public record TabItemInfo(PackIconKind Icon, string Header, Func<ContentControl> Factory);
-    static public TabItemInfo[] TabItemInfos { get; } = [
-        new TabItemInfo(PackIconKind.Settings, "FocTool", ()=>new FocToolPage( )),
+    public record TabItemInfo(FontIconData Icon, string Name, Func<ContentControl> Factory);
+    static private TabItemInfo[] TabItemInfos { get; } = [
+        new TabItemInfo(SegoeFluentIcons.Settings, "FocTool", ()=>new FocToolPage( )),
     ];
 
     [RelayCommand]
@@ -39,8 +38,8 @@ public partial class MainViewModel : ObservableObject
     }
 
     [ObservableProperty]
-    private ObservableCollection<TabItemViewModel> tabItems = [
-        new TabItemViewModel(TabItemInfos[0].Icon, TabItemInfos[0].Header, TabItemInfos[0].Factory()),
+    private ObservableCollection<TabItem> tabItems = [
+        new TabItem( ) { Header = TabItemInfos[0].Name, Content = new FocToolPage( ), DataContext = TabItemInfos[0]}
     ];
 
     [ObservableProperty]
@@ -49,24 +48,23 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     public void AddTabItem(string tabName)
     {
-        var tabInfo = TabItemInfos.FirstOrDefault(t => t.Header == tabName);
+        var tabInfo = TabItemInfos.FirstOrDefault(t => t.Name == tabName);
         if(tabInfo is not null)
         {
-            TabItems.Add(new TabItemViewModel(
-                tabInfo.Icon,
-                tabInfo.Header,
-                tabInfo.Factory( )
-            ));
-            if(TabItems.Count >= 1)
-                SelectedTabIndex = TabItems.Count - 1;
+            TabItems.Add(new TabItem( )
+            {
+                Header = tabInfo.Name,
+                Content = tabInfo.Factory( ),
+                DataContext = tabInfo
+            });
+            if(TabItems.Count == 1)
+                SelectedTabIndex = 0;
         }
     }
 
     [RelayCommand]
-    public void RemoveTabItem(string header)
+    public void RemoveTabItem(TabItem tabItem)
     {
-        var tabInfo = TabItems.FirstOrDefault(t => t.Header == header);
-        if(tabInfo is not null)
-            TabItems.Remove(tabInfo);
+        TabItems.Remove(tabItem);
     }
 }
