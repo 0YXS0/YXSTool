@@ -31,12 +31,15 @@
           <ControlTemplate TargetType="TabControl">
             <Grid ClipToBounds="True" KeyboardNavigation.TabNavigation="Local">
               <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" MinHeight="32" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
               </Grid.RowDefinitions>
 
               <!--  标签栏容器  -->
-              <Grid Grid.Row="0" Background="{TemplateBinding Background}">
+              <Grid
+                Grid.Row="0"
+                Margin="3,3,0,0"
+                Background="{TemplateBinding Background}">
                 <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
@@ -54,14 +57,15 @@
 
                   <!--  TabPanel - 显示所有标签  -->
                   <TabPanel
+                    VerticalAlignment="Center"
                     Panel.ZIndex="1"
                     IsItemsHost="True"
                     KeyboardNavigation.TabIndex="1"
                     KeyboardNavigation.TabNavigation="Local" />
 
                   <!--  Add 按钮 - 紧挨着标签  -->
-                  <Menu Padding="0">
-                    <MenuItem Padding="0" ItemsSource="{Binding DataContext.TabItemInfos, RelativeSource={RelativeSource AncestorType=TabControl}}">
+                  <Menu Margin="-4,-4,0,-4">
+                    <MenuItem ItemsSource="{Binding DataContext.TabItemInfos, RelativeSource={RelativeSource AncestorType=TabControl}}">
                       <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseDown">
                           <i:InvokeCommandAction Command="{Binding DataContext.AddTabItemCommand, RelativeSource={RelativeSource AncestorType=TabControl}}" PassEventArgsToCommand="True" />
@@ -126,7 +130,7 @@
       <Setter Property="HeaderTemplate">
         <Setter.Value>
           <DataTemplate>
-            <Border Margin="4,8,4,6">
+            <Border Margin="0">
               <Grid>
                 <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="Auto" />
@@ -134,11 +138,15 @@
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" Margin="0,0,6,0">
-                  <ui:FontIcon Foreground="MediumPurple" Icon="{Binding DataContext.Icon, RelativeSource={RelativeSource AncestorType=TabItem}}" />
+                  <ui:FontIcon
+                    FontSize="17"
+                    Foreground="MediumPurple"
+                    Icon="{Binding DataContext.Icon, RelativeSource={RelativeSource AncestorType=TabItem}}" />
                 </Border>
                 <TextBlock
                   Grid.Column="1"
                   VerticalAlignment="Center"
+                  FontSize="14"
                   Text="{Binding DataContext.Header, RelativeSource={RelativeSource AncestorType=TabItem}}" />
                 <Button
                   Grid.Column="2"
