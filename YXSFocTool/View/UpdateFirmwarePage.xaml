@@ -19,18 +19,13 @@
   PrimaryButtonText="完成"
   SecondaryButtonText="取消"
   mc:Ignorable="d">
-  <ui:ContentDialog.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <ui:ThemeResources />
-        <ui:XamlControlsResources />
-      </ResourceDictionary.MergedDictionaries>
-    </ResourceDictionary>
-  </ui:ContentDialog.Resources>
   <ui:ContentDialog.TitleTemplate>
     <DataTemplate>
       <Grid Margin="120,0" HorizontalAlignment="Stretch">
-        <TextBlock HorizontalAlignment="Center" FontWeight="Bold" Text="固件更新" />
+        <TextBlock
+          HorizontalAlignment="Center"
+          FontWeight="Bold"
+          Text="固件更新" />
       </Grid>
     </DataTemplate>
   </ui:ContentDialog.TitleTemplate>

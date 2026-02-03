@@ -16,14 +16,6 @@
   Background="White"
   FontSize="16"
   mc:Ignorable="d">
-  <UserControl.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <ui:ThemeResources />
-        <ui:XamlControlsResources />
-      </ResourceDictionary.MergedDictionaries>
-    </ResourceDictionary>
-  </UserControl.Resources>
   <Grid>
     <!--  主布局：上方内容区 + 下方状态栏  -->
     <Grid.RowDefinitions>
@@ -43,7 +35,10 @@
       <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto">
         <ikw:SimpleStackPanel Margin="4" Orientation="Vertical">
           <!--  连接参数  -->
-          <Border BorderBrush="#33000000" BorderThickness="1" CornerRadius="4">
+          <Border
+            BorderBrush="#33000000"
+            BorderThickness="1"
+            CornerRadius="4">
             <Expander
               Margin="4,0,0,0"
               HorizontalAlignment="Stretch"
@@ -54,7 +49,10 @@
               </Expander.Header>
               <Expander.Content>
                 <ikw:SimpleStackPanel Margin="4,0,2,2" Orientation="Vertical">
-                  <ToggleButton HorizontalAlignment="Stretch" Content="开启连接" IsChecked="{Binding IsConnected, Mode=TwoWay}" />
+                  <ToggleButton
+                    HorizontalAlignment="Stretch"
+                    Content="开启连接"
+                    IsChecked="{Binding IsConnected, Mode=TwoWay}" />
                   <Grid Margin="8,2,0,0">
                     <Grid.ColumnDefinitions>
                       <ColumnDefinition Width="Auto" />
@@ -115,14 +113,20 @@
             BorderBrush="#33000000"
             BorderThickness="1"
             CornerRadius="4">
-            <Expander Margin="4,0,0,0" HorizontalAlignment="Stretch" ExpandDirection="Down">
+            <Expander
+              Margin="4,0,0,0"
+              HorizontalAlignment="Stretch"
+              ExpandDirection="Down">
               <Expander.Header>
                 <Label Content="固件信息:" FontSize="20" />
               </Expander.Header>
               <Expander.Content>
                 <ikw:SimpleStackPanel Margin="8,0,2,0" IsEnabled="True">
                   <!--  bootloader  -->
-                  <Border BorderBrush="#33000000" BorderThickness="1" CornerRadius="4">
+                  <Border
+                    BorderBrush="#33000000"
+                    BorderThickness="1"
+                    CornerRadius="4">
                     <ikw:SimpleStackPanel Margin="2,0,0,0">
                       <Grid>
                         <Grid.ColumnDefinitions>
@@ -166,7 +170,10 @@
                               FontSize="12"
                               Foreground="Gray"
                               Text="{Binding BootloaderFileName, Mode=OneWay}" />
-                            <Button Grid.Column="1" Command="{Binding SelectBootloaderFileCommand}" Content="浏览" />
+                            <Button
+                              Grid.Column="1"
+                              Command="{Binding SelectBootloaderFileCommand}"
+                              Content="浏览" />
                           </Grid>
                         </Border>
                         <Button
@@ -233,7 +240,10 @@
                               FontSize="12"
                               Foreground="Gray"
                               Text="{Binding FirmwareFileName, Mode=OneWay}" />
-                            <Button Grid.Column="1" Command="{Binding SelectFirmwareFileCommand}" Content="浏览" />
+                            <Button
+                              Grid.Column="1"
+                              Command="{Binding SelectFirmwareFileCommand}"
+                              Content="浏览" />
                           </Grid>
                         </Border>
                         <Button
@@ -261,7 +271,10 @@
             BorderBrush="#33000000"
             BorderThickness="1"
             CornerRadius="4">
-            <Expander Margin="4,0,0,0" HorizontalAlignment="Stretch" ExpandDirection="Down">
+            <Expander
+              Margin="4,0,0,0"
+              HorizontalAlignment="Stretch"
+              ExpandDirection="Down">
               <Expander.Header>
                 <Label Content="PID调参:" FontSize="20" />
               </Expander.Header>
@@ -437,8 +450,14 @@
                         HorizontalAlignment="Stretch"
                         PlaceholderText="单位:ms"
                         Value="1000" />
-                      <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="ms" />
-                      <ToggleButton Grid.Column="3" Margin="2,0,0,0" Content="开启" />
+                      <TextBlock
+                        Grid.Column="2"
+                        VerticalAlignment="Center"
+                        Text="ms" />
+                      <ToggleButton
+                        Grid.Column="3"
+                        Margin="2,0,0,0"
+                        Content="开启" />
                     </Grid>
                   </Border>
 
@@ -462,7 +481,10 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                           </Grid.ColumnDefinitions>
-                          <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="电阻:" />
+                          <TextBlock
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Text="电阻:" />
                           <TextBlock
                             Grid.Column="1"
                             Margin="8,0,8,0"
@@ -484,7 +506,10 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                           </Grid.ColumnDefinitions>
-                          <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="电感:" />
+                          <TextBlock
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Text="电感:" />
                           <TextBlock
                             Grid.Column="1"
                             Margin="8,0,8,0"
@@ -498,7 +523,10 @@
                   </Border>
 
                   <!--  添加信息按钮  -->
-                  <Button Margin="0,4,0,2" HorizontalAlignment="Stretch" Content="添加信息" />
+                  <Button
+                    Margin="0,4,0,2"
+                    HorizontalAlignment="Stretch"
+                    Content="添加信息" />
                 </ikw:SimpleStackPanel>
               </Expander.Content>
             </Expander>
@@ -529,7 +557,10 @@
           BorderBrush="#33000000"
           BorderThickness="1"
           CornerRadius="4">
-          <Expander Margin="2,0,2,2" ExpandDirection="Down" IsExpanded="{Binding IsChartExpanded}">
+          <Expander
+            Margin="2,0,2,2"
+            ExpandDirection="Down"
+            IsExpanded="{Binding IsChartExpanded}">
             <Expander.Header>
               <Label Content="画图区:" FontSize="20" />
             </Expander.Header>
@@ -545,7 +576,10 @@
                   BorderBrush="#33000000"
                   BorderThickness="1"
                   CornerRadius="2">
-                  <Expander Margin="2" ExpandDirection="Left" IsExpanded="False">
+                  <Expander
+                    Margin="2"
+                    ExpandDirection="Left"
+                    IsExpanded="False">
                     <Expander.Header>
                       <TextBlock FontSize="16" Text="{Binding ChartControlHeader, Mode=OneTime}" />
                     </Expander.Header>
@@ -592,7 +626,10 @@
           BorderBrush="#33000000"
           BorderThickness="1"
           CornerRadius="4">
-          <Expander Margin="2,0,2,0" ExpandDirection="Down" IsExpanded="{Binding IsOutputExpanded}">
+          <Expander
+            Margin="2,0,2,0"
+            ExpandDirection="Down"
+            IsExpanded="{Binding IsOutputExpanded}">
             <Expander.Header>
               <Label Content="输出区:" FontSize="20" />
             </Expander.Header>
@@ -619,7 +656,10 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                   </Grid.ColumnDefinitions>
-                  <TextBox Grid.Column="0" HorizontalAlignment="Stretch" FontSize="14" />
+                  <TextBox
+                    Grid.Column="0"
+                    HorizontalAlignment="Stretch"
+                    FontSize="14" />
                   <Button
                     Grid.Column="1"
                     Width="80"
@@ -642,13 +682,19 @@
         </Grid.ColumnDefinitions>
 
         <!--  左侧：固件版本等信息  -->
-        <StackPanel Grid.Column="0" Margin="8,0,0,0" Orientation="Horizontal">
+        <StackPanel
+          Grid.Column="0"
+          Margin="8,0,0,0"
+          Orientation="Horizontal">
           <Label Content="状态: " Foreground="Gray" />
           <Label Margin="2,0,0,0" Content="未连接" />
         </StackPanel>
 
         <!--  右侧：发送/接收帧计数  -->
-        <StackPanel Grid.Column="1" Margin="0,0,8,0" Orientation="Horizontal">
+        <StackPanel
+          Grid.Column="1"
+          Margin="0,0,8,0"
+          Orientation="Horizontal">
           <Label Content="Tx: " Foreground="Gray" />
           <Label Margin="4,0,16,0" Content="0" />
           <Label Content="Rx: " Foreground="Gray" />
