@@ -2,21 +2,22 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows10.0.20348.0</TargetFramework>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Resource\icon_256x256.ico</ApplicationIcon>
     <StartupObject>YXSTool.View.App</StartupObject>
-    <SupportedOSPlatformVersion>10.0.20348.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Behavior\**" />
-    <EmbeddedResource Remove="Behavior\**" />
-    <None Remove="Behavior\**" />
-    <Page Remove="Behavior\**" />
-  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <IsPublishable>True</IsPublishable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <IsPublishable>True</IsPublishable>
+  </PropertyGroup>
 
   <ItemGroup>
     <Page Remove="View\App.xaml" />
@@ -27,11 +28,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Behavior\ShowContextMenuBehavior.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Resource\icon_256x256.ico" />
+    <EmbeddedResource Include="Resource\icon_256x256.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
