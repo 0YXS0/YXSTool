@@ -13,7 +13,7 @@ public partial class MainViewModel : ObservableObject
     public record TabItemViewModel(FontIconData Icon, string Header, ContentControl Content);
     public record TabItemInfo(FontIconData Icon, string Header, Func<ContentControl> Factory);
     static public TabItemInfo[] TabItemInfos { get; } = [
-        new TabItemInfo(SegoeFluentIcons.Repair, "FocTool", ()=>new FocToolPage( )),
+        new TabItemInfo(SegoeFluentIcons.Repair, "FocTool", ()=>new FocToolView( )),
     ];
 
     [RelayCommand]
@@ -94,13 +94,12 @@ public partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand]
-    public void RemoveTabItem(string header)
+    public void RemoveTabItem(TabItemViewModel item)
     {
         if(TabItems.Count > 1)
         {
-            var tabInfo = TabItems.FirstOrDefault(t => t.Header == header);
-            if(tabInfo is not null)
-                TabItems.Remove(tabInfo);
+            if(item is not null)
+                TabItems.Remove(item);
         }
     }
 }

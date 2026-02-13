@@ -6,10 +6,10 @@ namespace YXSFocTool;
 /// <summary>
 /// FocToolPage.xaml 的交互逻辑
 /// </summary>
-public partial class FocToolPage : UserControl
+public partial class FocToolView : UserControl
 {
     internal FocToolViewModel ViewModel { get; } = new( );
-    public FocToolPage( )
+    public FocToolView( )
     {
         InitializeComponent( );
         this.DataContext = ViewModel;

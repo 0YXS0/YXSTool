@@ -66,7 +66,7 @@ internal partial class FocToolViewModel : ObservableObject
     private async Task UpdateBootloader( )
     {
         if(!Path.Exists(BootloaderFilePath)) return;
-        var dialog = new UpdateFirmwarePage( );
+        var dialog = new UpdateFirmwareView( );
         dialog.ViewModel.FirmwareType = FirmwareType.Bootloader;
         dialog.ViewModel.FirmwareFilePath = BootloaderFilePath;
         await dialog.ShowAsync( );
@@ -97,7 +97,7 @@ internal partial class FocToolViewModel : ObservableObject
     private async Task UpdateFirmloader( )
     {
         if(!Path.Exists(FirmwareFilePath)) return;
-        var dialog = new UpdateFirmwarePage( );
+        var dialog = new UpdateFirmwareView( );
         dialog.ViewModel.FirmwareType = FirmwareType.Firmware;
         dialog.ViewModel.FirmwareFilePath = FirmwareFilePath;
         await dialog.ShowAsync( );
@@ -119,6 +119,71 @@ internal partial class FocToolViewModel : ObservableObject
     [ObservableProperty]
     private int m_SelectedPIDIndex = 2;
 
+    public partial class ChartDataInfo : ObservableObject
+    {
+        [ObservableProperty]
+        private bool m_IsShow;
+
+        [ObservableProperty]
+        private string m_Name = string.Empty;
+
+        public ChartDataInfo(bool isShow, string name)
+        {
+            IsShow = isShow;
+            Name = name;
+        }
+    }
+    [ObservableProperty]
+    public ObservableCollection<ChartDataInfo> m_ChartDataInfos =
+    [
+        new ChartDataInfo(true, "电流IQ"),
+        new ChartDataInfo(true, "电流ID"),
+        new ChartDataInfo(false, "速度"),
+        new ChartDataInfo(false, "位置"),
+    ];
+    [RelayCommand]
+    private void AddChartDataInfo(ChartDataInfo info)
+    { }
+    [RelayCommand]
+    private void ShowOrHideChartDataInfo(ChartDataInfo info)
+    {
+        info.IsShow = !info.IsShow;
+    }
+    [RelayCommand]
+    private void DelateChartDataInfo(ChartDataInfo info)
+    {
+        ChartDataInfos.Remove(info);
+    }
+
+    #region 图表数据选择Expander折叠逻辑
+    [ObservableProperty]
+    private GridLength m_ChartColumnWidth = new(1, GridUnitType.Star);
+    private GridLength m_lastChartColumnWidth = new(1, GridUnitType.Star);
+
+    [ObservableProperty]
+    private GridLength m_ChartDataColumnWidth = GridLength.Auto;
+    private GridLength m_lastChartDataColumnWidth = GridLength.Auto;
+
+    [ObservableProperty]
+    private bool m_IsChartDataExpanded = false;
+    partial void OnIsChartDataExpandedChanged(bool value)
+    {
+        if(value)
+        {
+            ChartColumnWidth = m_ChartColumnWidth;
+            ChartDataColumnWidth = m_lastChartDataColumnWidth;
+        }
+        else
+        {
+            m_lastChartColumnWidth = ChartColumnWidth;
+            m_lastChartDataColumnWidth = ChartDataColumnWidth;
+            ChartColumnWidth = new(1, GridUnitType.Star);
+            ChartDataColumnWidth = GridLength.Auto;
+        }
+    }
+    #endregion
+
+    #region 图表区Expander折叠逻辑
     [ObservableProperty]
     private GridLength m_ChartRowHeight = new(2.5, GridUnitType.Star);
     private GridLength m_lastChartRowHeight = new(2.5, GridUnitType.Star);
@@ -156,7 +221,5 @@ internal partial class FocToolViewModel : ObservableObject
             OutputRowHeight = GridLength.Auto;
         }
     }
-
-    [ObservableProperty]
-    private string m_ChartControlHeader = "图\n表\n数\n据\n选\n择";
+    #endregion
 }

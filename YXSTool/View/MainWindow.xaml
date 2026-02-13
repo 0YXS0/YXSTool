@@ -156,7 +156,7 @@
                   Background="Transparent"
                   BorderThickness="0"
                   Command="{Binding DataContext.RemoveTabItemCommand, RelativeSource={RelativeSource AncestorType=TabControl}}"
-                  CommandParameter="{Binding DataContext.Header, RelativeSource={RelativeSource AncestorType=TabItem}}"
+                  CommandParameter="{Binding}"
                   Foreground="IndianRed">
                   <Button.Content>
                     <ui:FontIcon FontSize="10" Icon="{x:Static ui:SegoeFluentIcons.ChromeClose}" />

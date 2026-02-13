@@ -1,3 +1,4 @@
+using iNKORE.UI.WPF.Modern.Controls;
 using YXSFocTool.ViewModel;
 
 namespace YXSFocTool.View;
@@ -5,10 +6,10 @@ namespace YXSFocTool.View;
 /// <summary>
 /// UpdateFirmwarePage.xaml 的交互逻辑
 /// </summary>
-public partial class UpdateFirmwarePage : iNKORE.UI.WPF.Modern.Controls.ContentDialog, System.Windows.Markup.IComponentConnector
+public partial class UpdateFirmwareView : ContentDialog
 {
     public UpdateFirmwareViewModel ViewModel { get; } = new( );
-    public UpdateFirmwarePage( )
+    public UpdateFirmwareView( )
     {
         InitializeComponent( );
         this.DataContext = this.ViewModel;

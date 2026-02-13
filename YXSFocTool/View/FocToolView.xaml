@@ -1,5 +1,5 @@
 <UserControl
-  x:Class="YXSFocTool.FocToolPage"
+  x:Class="YXSFocTool.FocToolView"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:ScottPlot="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
@@ -49,10 +49,34 @@
               </Expander.Header>
               <Expander.Content>
                 <ikw:SimpleStackPanel Margin="4,0,2,2" Orientation="Vertical">
-                  <ToggleButton
-                    HorizontalAlignment="Stretch"
-                    Content="开启连接"
-                    IsChecked="{Binding IsConnected, Mode=TwoWay}" />
+                  <ToggleButton HorizontalAlignment="Stretch" IsChecked="{Binding IsConnected, Mode=TwoWay}">
+                    <ToggleButton.Style>
+                      <Style BasedOn="{StaticResource DefaultToggleButtonStyle}" TargetType="ToggleButton">
+                        <Style.Triggers>
+                          <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Content">
+                              <Setter.Value>
+                                <ikw:SimpleStackPanel Orientation="Horizontal">
+                                  <ui:FontIcon Foreground="IndianRed" Icon="{x:Static ui:SegoeFluentIcons.DisconnectDisplay}" />
+                                  <TextBlock Margin="8,0,0,0" Text="停止连接" />
+                                </ikw:SimpleStackPanel>
+                              </Setter.Value>
+                            </Setter>
+                          </Trigger>
+                          <Trigger Property="IsChecked" Value="False">
+                            <Setter Property="Content">
+                              <Setter.Value>
+                                <ikw:SimpleStackPanel Orientation="Horizontal">
+                                  <ui:FontIcon Foreground="MediumPurple" Icon="{x:Static ui:SegoeFluentIcons.Connect}" />
+                                  <TextBlock Margin="8,0,0,0" Text="开始连接" />
+                                </ikw:SimpleStackPanel>
+                              </Setter.Value>
+                            </Setter>
+                          </Trigger>
+                        </Style.Triggers>
+                      </Style>
+                    </ToggleButton.Style>
+                  </ToggleButton>
                   <Grid Margin="8,2,0,0">
                     <Grid.ColumnDefinitions>
                       <ColumnDefinition Width="Auto" />
@@ -523,10 +547,14 @@
                   </Border>
 
                   <!--  添加信息按钮  -->
-                  <Button
-                    Margin="0,4,0,2"
-                    HorizontalAlignment="Stretch"
-                    Content="添加信息" />
+                  <Button Margin="0,4,0,2" HorizontalAlignment="Stretch">
+                    <Button.Content>
+                      <ikw:SimpleStackPanel Orientation="Horizontal">
+                        <ui:FontIcon Foreground="MediumPurple" Icon="{x:Static ui:SegoeFluentIcons.Add}" />
+                        <TextBlock Margin="4,0,0,0" Text="添加信息" />
+                      </ikw:SimpleStackPanel>
+                    </Button.Content>
+                  </Button>
                 </ikw:SimpleStackPanel>
               </Expander.Content>
             </Expander>
@@ -567,42 +595,294 @@
             <Expander.Content>
               <Grid>
                 <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="{Binding ChartColumnWidth, Mode=TwoWay}" />
                   <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="{Binding ChartDataColumnWidth, Mode=TwoWay}" />
                 </Grid.ColumnDefinitions>
-                <!--  图表控制区  -->
-                <Border
-                  Grid.Column="1"
-                  BorderBrush="#33000000"
-                  BorderThickness="1"
-                  CornerRadius="2">
-                  <Expander
-                    Margin="2"
-                    ExpandDirection="Left"
-                    IsExpanded="False">
-                    <Expander.Header>
-                      <TextBlock FontSize="16" Text="{Binding ChartControlHeader, Mode=OneTime}" />
-                    </Expander.Header>
-                    <Expander.Content>
-                      <ScrollViewer Margin="4,0,0,0">
-                        <ikw:SimpleStackPanel>
-                          <CheckBox Content="电流Iq" />
-                          <CheckBox Content="电流Id" />
-                          <CheckBox Content="速度" />
-                          <CheckBox Content="位置" />
-                        </ikw:SimpleStackPanel>
-                      </ScrollViewer>
-                    </Expander.Content>
-                  </Expander>
-                </Border>
 
-                <!--  折线图画布  -->
+                <!--  图表控制区与折线图画布  -->
                 <Border
                   Grid.Column="0"
                   BorderBrush="#33000000"
                   BorderThickness="1"
                   CornerRadius="2">
-                  <ScottPlot:WpfPlot x:Name="WpfPlot1" />
+                  <Grid>
+                    <Grid.RowDefinitions>
+                      <RowDefinition Height="Auto" />
+                      <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Margin="1,1,1,0">
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                      </Grid.ColumnDefinitions>
+
+                      <ikw:SimpleStackPanel Orientation="Horizontal" Spacing="1">
+                        <!--  开始与暂停按钮  -->
+                        <ToggleButton>
+                          <ToggleButton.Style>
+                            <Style BasedOn="{StaticResource DefaultToggleButtonStyle}" TargetType="ToggleButton">
+                              <Style.Triggers>
+                                <Trigger Property="IsChecked" Value="True">
+                                  <Setter Property="Content">
+                                    <Setter.Value>
+                                      <ikw:SimpleStackPanel Orientation="Horizontal">
+                                        <ui:FontIcon Foreground="IndianRed" Icon="{x:Static ui:SegoeFluentIcons.Pause}" />
+                                        <TextBlock Margin="4,0,0,0" Text="暂停" />
+                                      </ikw:SimpleStackPanel>
+                                    </Setter.Value>
+                                  </Setter>
+                                </Trigger>
+                                <Trigger Property="IsChecked" Value="False">
+                                  <Setter Property="Content">
+                                    <Setter.Value>
+                                      <ikw:SimpleStackPanel Orientation="Horizontal">
+                                        <ui:FontIcon Foreground="MediumPurple" Icon="{x:Static ui:SegoeFluentIcons.Play}" />
+                                        <TextBlock Margin="4,0,0,0" Text="开始" />
+                                      </ikw:SimpleStackPanel>
+                                    </Setter.Value>
+                                  </Setter>
+                                </Trigger>
+                              </Style.Triggers>
+                            </Style>
+                          </ToggleButton.Style>
+                        </ToggleButton>
+
+                        <!--  缩放按钮  -->
+                        <Button>
+                          <Button.Content>
+                            <ikw:SimpleStackPanel Orientation="Horizontal">
+                              <ui:FontIcon Foreground="MediumPurple" Icon="{x:Static ui:SegoeFluentIcons.ZoomMode}" />
+                              <TextBlock Margin="4,0,0,0" Text="缩放" />
+                            </ikw:SimpleStackPanel>
+                          </Button.Content>
+                        </Button>
+
+                        <!--  保存数据按钮  -->
+                        <Button>
+                          <Button.Content>
+                            <ikw:SimpleStackPanel Orientation="Horizontal">
+                              <ui:FontIcon Foreground="MediumPurple" Icon="{x:Static ui:SegoeFluentIcons.SaveLocal}" />
+                              <TextBlock Margin="4,0,0,0" Text="保存" />
+                            </ikw:SimpleStackPanel>
+                          </Button.Content>
+                        </Button>
+
+                        <!--  图片导出按钮  -->
+                        <Button>
+                          <Button.Content>
+                            <ikw:SimpleStackPanel Orientation="Horizontal">
+                              <ui:FontIcon Foreground="MediumPurple" Icon="{x:Static ui:SegoeFluentIcons.ImageExport}" />
+                              <TextBlock Margin="4,0,0,0" Text="导出" />
+                            </ikw:SimpleStackPanel>
+                          </Button.Content>
+                        </Button>
+                      </ikw:SimpleStackPanel>
+
+                      <ikw:SimpleStackPanel
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Text="缓冲区大小:" />
+                        <TextBox
+                          MinWidth="72"
+                          Margin="4,0,0,0"
+                          ui:TextBoxHelper.IsDeleteButtonVisible="False"
+                          Text="50000" />
+                      </ikw:SimpleStackPanel>
+                    </Grid>
+                    <Border
+                      Grid.Row="1"
+                      BorderBrush="#33000000"
+                      BorderThickness="0.5,1"
+                      CornerRadius="2">
+                      <ScottPlot:WpfPlot
+                        x:Name="ChartPlot"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        IsEnabled="{Binding IsChartExpanded, Mode=OneWay}" />
+                    </Border>
+                  </Grid>
+                </Border>
+
+                <GridSplitter
+                  Grid.Column="1"
+                  Width="3"
+                  Margin="1,0"
+                  Background="#22000000"
+                  ResizeDirection="Columns"
+                  ShowsPreview="False">
+                  <GridSplitter.Style>
+                    <Style BasedOn="{StaticResource DefaultGridSplitterStyle}" TargetType="GridSplitter">
+                      <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsExpanded, ElementName=_ChartExpander}" Value="False">
+                          <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </GridSplitter.Style>
+                </GridSplitter>
+
+                <!--  图表数据选择区  -->
+                <Border
+                  Grid.Column="2"
+                  BorderBrush="#33000000"
+                  BorderThickness="1"
+                  CornerRadius="2">
+                  <Expander
+                    x:Name="_ChartExpander"
+                    Margin="2"
+                    Padding="0,4,0,0"
+                    ExpandDirection="Left"
+                    IsExpanded="{Binding IsChartDataExpanded, Mode=OneWayToSource}">
+                    <Expander.Header>
+                      <TextBlock FontSize="15" Text="图&#x0a;表&#x0a;数&#x0a;据&#x0a;选&#x0a;择" />
+                    </Expander.Header>
+                    <Expander.Content>
+                      <ikw:SimpleStackPanel>
+                        <ItemsControl ItemsSource="{Binding ChartDataInfos}">
+                          <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                              <Border
+                                Background="Transparent"
+                                BorderBrush="#33000000"
+                                BorderThickness="1,0.5"
+                                CornerRadius="2">
+                                <Expander ExpandDirection="Down">
+                                  <Expander.Template>
+                                    <ControlTemplate TargetType="Expander">
+                                      <DockPanel HorizontalAlignment="Stretch">
+                                        <ToggleButton
+                                          HorizontalAlignment="Stretch"
+                                          HorizontalContentAlignment="Stretch"
+                                          DockPanel.Dock="Top"
+                                          IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                                          <ToggleButton.Template>
+                                            <ControlTemplate>
+                                              <ContentControl VerticalAlignment="Center" Content="{Binding Header, RelativeSource={RelativeSource AncestorType=Expander}}" />
+                                            </ControlTemplate>
+                                          </ToggleButton.Template>
+                                        </ToggleButton>
+                                        <ContentPresenter
+                                          x:Name="ExpandSite"
+                                          DockPanel.Dock="Bottom"
+                                          Visibility="Collapsed" />
+                                      </DockPanel>
+                                      <ControlTemplate.Triggers>
+                                        <Trigger Property="IsExpanded" Value="true">
+                                          <Setter TargetName="ExpandSite" Property="Visibility" Value="Visible" />
+                                        </Trigger>
+                                      </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                  </Expander.Template>
+                                  <Expander.Header>
+                                    <Grid HorizontalAlignment="Stretch" DockPanel.Dock="Top">
+                                      <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                      </Grid.ColumnDefinitions>
+                                      <Button
+                                        x:Name="_showBtu"
+                                        Grid.Column="0"
+                                        Padding="0"
+                                        Background="Transparent"
+                                        BorderBrush="Transparent"
+                                        Command="{Binding DataContext.ShowOrHideChartDataInfoCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                        CommandParameter="{Binding}">
+                                        <Button.Style>
+                                          <Style BasedOn="{StaticResource DefaultButtonStyle}" TargetType="Button">
+                                            <Style.Triggers>
+                                              <DataTrigger Binding="{Binding IsShow, Mode=OneWay}" Value="False">
+                                                <Setter Property="Content">
+                                                  <Setter.Value>
+                                                    <ui:FontIcon
+                                                      FontSize="20"
+                                                      Foreground="MediumPurple"
+                                                      Icon="{x:Static ui:FluentSystemIcons.EyeOff_16_Regular}" />
+                                                  </Setter.Value>
+                                                </Setter>
+                                              </DataTrigger>
+                                              <DataTrigger Binding="{Binding IsShow, Mode=OneWay}" Value="True">
+                                                <Setter Property="Content">
+                                                  <Setter.Value>
+                                                    <ui:FontIcon
+                                                      FontSize="20"
+                                                      Foreground="MediumPurple"
+                                                      Icon="{x:Static ui:FluentSystemIcons.Eye_16_Regular}" />
+                                                  </Setter.Value>
+                                                </Setter>
+                                              </DataTrigger>
+                                            </Style.Triggers>
+                                          </Style>
+                                        </Button.Style>
+                                      </Button>
+                                      <TextBlock
+                                        Grid.Column="1"
+                                        Margin="2,0"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Name}" />
+                                      <Button
+                                        x:Name="_deleteBtu"
+                                        Grid.Column="2"
+                                        Padding="0"
+                                        HorizontalAlignment="Right"
+                                        Background="Transparent"
+                                        BorderBrush="Transparent"
+                                        Visibility="Hidden">
+                                        <Button.Content>
+                                          <ui:FontIcon Foreground="IndianRed" Icon="{x:Static ui:SegoeFluentIcons.Delete}" />
+                                        </Button.Content>
+                                      </Button>
+                                    </Grid>
+                                  </Expander.Header>
+                                  <Expander.Content>
+                                    <Border
+                                      Margin="1,0,1,1"
+                                      Padding="1,0"
+                                      Background="Transparent"
+                                      BorderBrush="#33000000"
+                                      BorderThickness="0.5">
+                                      <Grid Margin="4,0,0,0">
+                                        <Grid.RowDefinitions>
+                                          <RowDefinition Height="Auto" />
+                                          <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <ikw:SimpleStackPanel Grid.Row="0" Orientation="Horizontal">
+                                          <TextBlock VerticalAlignment="Center" Text="变量:" />
+                                          <TextBlock Text="test" />
+                                        </ikw:SimpleStackPanel>
+                                        <ikw:SimpleStackPanel Grid.Row="1" Orientation="Horizontal">
+                                          <TextBlock VerticalAlignment="Center" Text="地址:" />
+                                          <TextBlock Text="test" />
+                                        </ikw:SimpleStackPanel>
+                                      </Grid>
+                                    </Border>
+                                  </Expander.Content>
+                                </Expander>
+                              </Border>
+                              <DataTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                  <Setter TargetName="_deleteBtu" Property="Visibility" Value="Visible" />
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="False">
+                                  <Setter TargetName="_deleteBtu" Property="Visibility" Value="Hidden" />
+                                </Trigger>
+                              </DataTemplate.Triggers>
+                            </DataTemplate>
+                          </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Button HorizontalAlignment="Stretch">
+                          <Button.Content>
+                            <ikw:SimpleStackPanel Orientation="Horizontal">
+                              <ui:FontIcon Foreground="MediumPurple" Icon="{x:Static ui:SegoeFluentIcons.Add}" />
+                              <TextBlock Margin="4,0,0,0" Text="添加数据" />
+                            </ikw:SimpleStackPanel>
+                          </Button.Content>
+                        </Button>
+                      </ikw:SimpleStackPanel>
+                    </Expander.Content>
+                  </Expander>
                 </Border>
               </Grid>
             </Expander.Content>
@@ -616,7 +896,20 @@
           Margin="0,2,0,0"
           Background="#22000000"
           ResizeDirection="Rows"
-          ShowsPreview="False" />
+          ShowsPreview="False">
+          <GridSplitter.Style>
+            <Style BasedOn="{StaticResource DefaultGridSplitterStyle}" TargetType="GridSplitter">
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding IsChartExpanded}" Value="False">
+                  <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsOutputExpanded}" Value="False">
+                  <Setter Property="Visibility" Value="Collapsed" />
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </GridSplitter.Style>
+        </GridSplitter>
 
         <!--  输出字符命令行  -->
         <Border
@@ -645,6 +938,7 @@
                   MinHeight="150"
                   VerticalAlignment="Stretch"
                   ui:ControlHelper.CornerRadius="0"
+                  ui:TextBoxHelper.IsDeleteButtonVisible="False"
                   FontSize="14"
                   IsReadOnly="True"
                   Text="该上位机适用YXS-FOC的调试"
@@ -659,12 +953,19 @@
                   <TextBox
                     Grid.Column="0"
                     HorizontalAlignment="Stretch"
+                    ui:TextBoxHelper.IsDeleteButtonVisible="False"
                     FontSize="14" />
                   <Button
                     Grid.Column="1"
                     Width="80"
-                    VerticalAlignment="Stretch"
-                    Content="发送" />
+                    VerticalAlignment="Stretch">
+                    <Button.Content>
+                      <ikw:SimpleStackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                        <ui:FontIcon Foreground="MediumPurple" Icon="{x:Static ui:SegoeFluentIcons.Send}" />
+                        <TextBlock Margin="4,0,0,0" Text="发送" />
+                      </ikw:SimpleStackPanel>
+                    </Button.Content>
+                  </Button>
                 </Grid>
               </Grid>
             </Expander.Content>
@@ -686,7 +987,11 @@
           Grid.Column="0"
           Margin="8,0,0,0"
           Orientation="Horizontal">
-          <Label Content="状态: " Foreground="Gray" />
+          <ui:FontIcon Foreground="MediumPurple" Icon="{x:Static ui:SegoeFluentIcons.Connected}" />
+          <Label
+            Margin="4,0,0,0"
+            Content="状态: "
+            Foreground="Gray" />
           <Label Margin="2,0,0,0" Content="未连接" />
         </StackPanel>
 
