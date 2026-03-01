@@ -1,0 +1,66 @@
+<ui:ContentDialog
+  x:Class="YXSFocTool.View.AddDataInfoView"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+  xmlns:ikw="http://schemas.inkore.net/lib/ui/wpf"
+  xmlns:local="clr-namespace:YXSFocTool.View"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:ui="http://schemas.inkore.net/lib/ui/wpf/modern"
+  xmlns:vm="clr-namespace:YXSFocTool.ViewModel"
+  MinWidth="400"
+  MinHeight="240"
+  d:DataContext="{d:DesignInstance Type=vm:AddDataInfoViewModel}"
+  DefaultButton="Primary"
+  FontSize="16"
+  PrimaryButtonText="完成"
+  SecondaryButtonText="取消"
+  mc:Ignorable="d">
+  <ui:ContentDialog.TitleTemplate>
+    <DataTemplate>
+      <Grid Margin="120,0" HorizontalAlignment="Stretch">
+        <TextBlock
+          HorizontalAlignment="Center"
+          FontWeight="Bold"
+          Text="添加数据信息" />
+      </Grid>
+    </DataTemplate>
+  </ui:ContentDialog.TitleTemplate>
+  <ikw:SimpleStackPanel HorizontalAlignment="Center">
+    <ikw:SimpleStackPanel Margin="0,2,0,0" Orientation="Horizontal">
+      <TextBlock
+        VerticalAlignment="Center"
+        FontFamily="Consolas"
+        Text="类  型:" />
+      <ComboBox
+        Width="160"
+        Margin="3,0"
+        VerticalAlignment="Center"
+        ItemsSource="{Binding DataTypeList}"
+        SelectedItem="{Binding SelectedDataType}" />
+    </ikw:SimpleStackPanel>
+    <ikw:SimpleStackPanel Margin="0,2,0,0" Orientation="Horizontal">
+      <TextBlock
+        VerticalAlignment="Center"
+        FontFamily="Consolas"
+        Text="名  字:" />
+      <TextBox
+        Width="160"
+        Margin="3,0"
+        VerticalAlignment="Center"
+        Text="{Binding Name, Mode=TwoWay}" />
+    </ikw:SimpleStackPanel>
+    <ikw:SimpleStackPanel Margin="0,2,0,0" Orientation="Horizontal">
+      <TextBlock
+        VerticalAlignment="Center"
+        FontFamily="Consolas"
+        Text="变量ID:" />
+      <TextBox
+        Width="160"
+        Margin="3,0"
+        VerticalAlignment="Center"
+        Text="{Binding VerID, Mode=TwoWay}" />
+    </ikw:SimpleStackPanel>
+  </ikw:SimpleStackPanel>
+</ui:ContentDialog>

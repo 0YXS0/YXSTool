@@ -45,7 +45,7 @@
               ExpandDirection="Down"
               IsExpanded="True">
               <Expander.Header>
-                <Label Content="连接设置:" FontSize="20" />
+                <TextBlock FontSize="20" Text="连接设置:" />
               </Expander.Header>
               <Expander.Content>
                 <ikw:SimpleStackPanel Margin="4,0,2,2" Orientation="Vertical">
@@ -142,7 +142,7 @@
               HorizontalAlignment="Stretch"
               ExpandDirection="Down">
               <Expander.Header>
-                <Label Content="固件信息:" FontSize="20" />
+                <TextBlock FontSize="20" Text="固件信息:" />
               </Expander.Header>
               <Expander.Content>
                 <ikw:SimpleStackPanel Margin="8,0,2,0" IsEnabled="True">
@@ -151,7 +151,7 @@
                     BorderBrush="#33000000"
                     BorderThickness="1"
                     CornerRadius="4">
-                    <ikw:SimpleStackPanel Margin="2,0,0,0">
+                    <ikw:SimpleStackPanel Margin="2,0,2,2">
                       <Grid>
                         <Grid.ColumnDefinitions>
                           <ColumnDefinition Width="Auto" />
@@ -206,12 +206,6 @@
                           Command="{Binding UpdateBootloaderCommand}"
                           Content="更新" />
                       </Grid>
-                      <ui:ProgressBar
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="2"
-                        Margin="0,2,2,2"
-                        Value="{Binding BootloaderUpdateProgress, Mode=OneWay}" />
                     </ikw:SimpleStackPanel>
                   </Border>
 
@@ -221,7 +215,7 @@
                     BorderBrush="#33000000"
                     BorderThickness="1"
                     CornerRadius="4">
-                    <ikw:SimpleStackPanel Margin="2,0,0,0">
+                    <ikw:SimpleStackPanel Margin="2,0,2,2">
                       <Grid>
                         <Grid.ColumnDefinitions>
                           <ColumnDefinition Width="Auto" />
@@ -273,15 +267,9 @@
                         <Button
                           Grid.Row="0"
                           Grid.Column="1"
-                          Command="{Binding UpdateFirmloaderCommand}"
+                          Command="{Binding UpdateFirmwareCommand}"
                           Content="更新" />
                       </Grid>
-                      <ui:ProgressBar
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Grid.ColumnSpan="2"
-                        Margin="0,2,2,2"
-                        Value="{Binding FirmwareUpdateProgress, Mode=OneWay}" />
                     </ikw:SimpleStackPanel>
                   </Border>
                 </ikw:SimpleStackPanel>
@@ -300,7 +288,7 @@
               HorizontalAlignment="Stretch"
               ExpandDirection="Down">
               <Expander.Header>
-                <Label Content="PID调参:" FontSize="20" />
+                <TextBlock FontSize="20" Text="PID调参:" />
               </Expander.Header>
               <Expander.Content>
                 <ikw:SimpleStackPanel Margin="8,0,2,0" IsEnabled="True">
@@ -447,7 +435,7 @@
               ExpandDirection="Down"
               IsExpanded="True">
               <Expander.Header>
-                <Label Content="设备信息:" FontSize="20" />
+                <TextBlock FontSize="20" Text="设备信息:" />
               </Expander.Header>
               <Expander.Content>
                 <ikw:SimpleStackPanel Margin="4,0,2,0">
@@ -462,26 +450,21 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
                       </Grid.ColumnDefinitions>
                       <TextBlock
                         Grid.Column="0"
                         Margin="0,0,8,0"
                         VerticalAlignment="Center"
                         Text="更新周期:" />
-                      <ui:NumberBox
+                      <TextBox
                         Grid.Column="1"
                         HorizontalAlignment="Stretch"
-                        PlaceholderText="单位:ms"
-                        Value="1000" />
+                        ui:TextBoxHelper.IsDeleteButtonVisible="False"
+                        Text="{Binding DeviceDataUpdataPeriod, Mode=TwoWay}" />
                       <TextBlock
                         Grid.Column="2"
                         VerticalAlignment="Center"
                         Text="ms" />
-                      <ToggleButton
-                        Grid.Column="3"
-                        Margin="2,0,0,0"
-                        Content="开启" />
                     </Grid>
                   </Border>
 
@@ -492,62 +475,169 @@
                     BorderBrush="#33000000"
                     BorderThickness="1"
                     CornerRadius="4">
-                    <ikw:SimpleStackPanel>
-                      <Border
-                        Margin="0,0,0,1"
-                        Padding="1"
-                        BorderBrush="#33000000"
-                        BorderThickness="1"
-                        CornerRadius="4">
-                        <Grid Margin="4,0,0,0">
-                          <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                          </Grid.ColumnDefinitions>
-                          <TextBlock
-                            Grid.Column="0"
-                            VerticalAlignment="Center"
-                            Text="电阻:" />
-                          <TextBlock
-                            Grid.Column="1"
-                            Margin="8,0,8,0"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Center"
-                            Text="0.000000" />
-                          <Button Grid.Column="2" Content="更新" />
-                        </Grid>
-                      </Border>
-                      <Border
-                        Margin="0,0,0,1"
-                        Padding="1"
-                        BorderBrush="#33000000"
-                        BorderThickness="1"
-                        CornerRadius="4">
-                        <Grid Margin="4,0,0,0">
-                          <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                          </Grid.ColumnDefinitions>
-                          <TextBlock
-                            Grid.Column="0"
-                            VerticalAlignment="Center"
-                            Text="电感:" />
-                          <TextBlock
-                            Grid.Column="1"
-                            Margin="8,0,8,0"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Center"
-                            Text="0.000000" />
-                          <Button Grid.Column="2" Content="更新" />
-                        </Grid>
-                      </Border>
-                    </ikw:SimpleStackPanel>
+                    <ItemsControl ItemsSource="{Binding DeviceDataInfos, Mode=OneWay}">
+                      <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                          <Border
+                            Margin="0,0,0,1"
+                            Padding="1"
+                            BorderBrush="#33000000"
+                            BorderThickness="1"
+                            CornerRadius="4">
+                            <Expander ExpandDirection="Down">
+                              <Expander.Template>
+                                <ControlTemplate TargetType="Expander">
+                                  <DockPanel HorizontalAlignment="Stretch">
+                                    <ToggleButton
+                                      HorizontalAlignment="Stretch"
+                                      HorizontalContentAlignment="Stretch"
+                                      DockPanel.Dock="Top"
+                                      IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
+                                      <ToggleButton.Template>
+                                        <ControlTemplate>
+                                          <ContentControl VerticalAlignment="Center" Content="{Binding Header, RelativeSource={RelativeSource AncestorType=Expander}}" />
+                                        </ControlTemplate>
+                                      </ToggleButton.Template>
+                                    </ToggleButton>
+                                    <ContentPresenter
+                                      x:Name="ExpandSite"
+                                      DockPanel.Dock="Bottom"
+                                      Visibility="Collapsed" />
+                                  </DockPanel>
+                                  <ControlTemplate.Triggers>
+                                    <Trigger Property="IsExpanded" Value="true">
+                                      <Setter TargetName="ExpandSite" Property="Visibility" Value="Visible" />
+                                    </Trigger>
+                                  </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                              </Expander.Template>
+                              <Expander.Header>
+                                <Grid Margin="4,0,0,0">
+                                  <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                  </Grid.ColumnDefinitions>
+                                  <ikw:SimpleStackPanel
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal">
+                                    <TextBlock VerticalAlignment="Center" Text="{Binding Name, Mode=OneTime}" />
+                                    <TextBlock
+                                      Margin="2,0"
+                                      VerticalAlignment="Center"
+                                      FontSize="17"
+                                      Text=":" />
+                                  </ikw:SimpleStackPanel>
+                                  <TextBlock
+                                    Grid.Column="1"
+                                    Margin="4,0,4,0"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding ValueAsStr, Mode=OneWay}" />
+                                  <Button
+                                    Grid.Column="2"
+                                    Padding="0"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    Command="{Binding DataContext.SetDataAutoUpdataCommand, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneTime}"
+                                    CommandParameter="{Binding}"
+                                    ToolTip="开启/关闭自动更新">
+                                    <Button.Style>
+                                      <Style BasedOn="{StaticResource DefaultButtonStyle}" TargetType="Button">
+                                        <Style.Triggers>
+                                          <DataTrigger Binding="{Binding IsAutoUpdate, Mode=OneWay}" Value="True">
+                                            <Setter Property="Content">
+                                              <Setter.Value>
+                                                <ui:FontIcon
+                                                  FontSize="18"
+                                                  Foreground="MediumPurple"
+                                                  Icon="{x:Static ui:FluentSystemIcons.Flash_16_Regular}" />
+                                              </Setter.Value>
+                                            </Setter>
+                                          </DataTrigger>
+                                          <DataTrigger Binding="{Binding IsAutoUpdate, Mode=OneWay}" Value="False">
+                                            <Setter Property="Content">
+                                              <Setter.Value>
+                                                <ui:FontIcon
+                                                  FontSize="18"
+                                                  Foreground="IndianRed"
+                                                  Icon="{x:Static ui:FluentSystemIcons.FlashOff_20_Regular}" />
+                                              </Setter.Value>
+                                            </Setter>
+                                          </DataTrigger>
+                                        </Style.Triggers>
+                                      </Style>
+                                    </Button.Style>
+                                  </Button>
+                                  <Button
+                                    Grid.Column="3"
+                                    Margin="2,0"
+                                    Padding="0"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    ToolTip="手动更新数据">
+                                    <Button.Content>
+                                      <ui:FontIcon
+                                        FontSize="18"
+                                        Foreground="MediumSeaGreen"
+                                        Icon="{x:Static ui:FluentSystemIcons.ArrowClockwise_16_Regular}" />
+                                    </Button.Content>
+                                  </Button>
+                                  <Button
+                                    Grid.Column="4"
+                                    Padding="0"
+                                    Background="Transparent"
+                                    BorderBrush="Transparent"
+                                    Command="{Binding DataContext.DelateDeviceDataInfoCommand, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneTime}"
+                                    CommandParameter="{Binding}">
+                                    <Button.Content>
+                                      <ui:FontIcon
+                                        FontSize="18"
+                                        Foreground="IndianRed"
+                                        Icon="{x:Static ui:FluentSystemIcons.Delete_16_Regular}" />
+                                    </Button.Content>
+                                  </Button>
+                                </Grid>
+                              </Expander.Header>
+                              <Expander.Content>
+                                <Border BorderBrush="#33000000" BorderThickness="1">
+                                  <Grid Margin="8,0,0,0">
+                                    <Grid.ColumnDefinitions>
+                                      <ColumnDefinition Width="1*" />
+                                      <ColumnDefinition Width="1*" />
+                                    </Grid.ColumnDefinitions>
+                                    <ikw:SimpleStackPanel Grid.Column="0" Orientation="Horizontal">
+                                      <TextBlock
+                                        Margin="0,0,4,0"
+                                        FontSize="13"
+                                        Text="变量ID:" />
+                                      <TextBlock FontSize="13" Text="{Binding ID, Mode=OneTime}" />
+                                    </ikw:SimpleStackPanel>
+                                    <ikw:SimpleStackPanel Grid.Column="1" Orientation="Horizontal">
+                                      <TextBlock
+                                        Margin="0,0,4,0"
+                                        FontSize="13"
+                                        Text="类型:" />
+                                      <TextBlock FontSize="13" Text="{Binding Type, Mode=OneTime}" />
+                                    </ikw:SimpleStackPanel>
+                                  </Grid>
+                                </Border>
+                              </Expander.Content>
+                            </Expander>
+                          </Border>
+                        </DataTemplate>
+                      </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                   </Border>
 
                   <!--  添加信息按钮  -->
-                  <Button Margin="0,4,0,2" HorizontalAlignment="Stretch">
+                  <Button
+                    Margin="0,4,0,2"
+                    HorizontalAlignment="Stretch"
+                    Command="{Binding AddDeviceDataInfoCommand}">
                     <Button.Content>
                       <ikw:SimpleStackPanel Orientation="Horizontal">
                         <ui:FontIcon Foreground="MediumPurple" Icon="{x:Static ui:SegoeFluentIcons.Add}" />
@@ -590,7 +680,7 @@
             ExpandDirection="Down"
             IsExpanded="{Binding IsChartExpanded}">
             <Expander.Header>
-              <Label Content="画图区:" FontSize="20" />
+              <TextBlock FontSize="20" Text="画图区:" />
             </Expander.Header>
             <Expander.Content>
               <Grid>
@@ -688,7 +778,7 @@
                           MinWidth="72"
                           Margin="4,0,0,0"
                           ui:TextBoxHelper.IsDeleteButtonVisible="False"
-                          Text="50000" />
+                          Text="{Binding ChartDataBufferSize, Mode=TwoWay}" />
                       </ikw:SimpleStackPanel>
                     </Grid>
                     <Border
@@ -740,14 +830,13 @@
                     </Expander.Header>
                     <Expander.Content>
                       <ikw:SimpleStackPanel>
-                        <ItemsControl ItemsSource="{Binding ChartDataInfos}">
+                        <ItemsControl ItemsSource="{Binding ChartDataInfos, Mode=OneWay}">
                           <ItemsControl.ItemTemplate>
                             <DataTemplate>
                               <Border
                                 Background="Transparent"
                                 BorderBrush="#33000000"
-                                BorderThickness="1,0.5"
-                                CornerRadius="2">
+                                BorderThickness="1,0.5">
                                 <Expander ExpandDirection="Down">
                                   <Expander.Template>
                                     <ControlTemplate TargetType="Expander">
@@ -788,7 +877,7 @@
                                         Padding="0"
                                         Background="Transparent"
                                         BorderBrush="Transparent"
-                                        Command="{Binding DataContext.ShowOrHideChartDataInfoCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                        Command="{Binding DataContext.ShowOrHideChartDataInfoCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}, Mode=OneTime}"
                                         CommandParameter="{Binding}">
                                         <Button.Style>
                                           <Style BasedOn="{StaticResource DefaultButtonStyle}" TargetType="Button">
@@ -821,7 +910,7 @@
                                         Grid.Column="1"
                                         Margin="2,0"
                                         VerticalAlignment="Center"
-                                        Text="{Binding Name}" />
+                                        Text="{Binding Name, Mode=OneTime}" />
                                       <Button
                                         x:Name="_deleteBtu"
                                         Grid.Column="2"
@@ -829,9 +918,11 @@
                                         HorizontalAlignment="Right"
                                         Background="Transparent"
                                         BorderBrush="Transparent"
+                                        Command="{Binding DataContext.DelateChartDataInfoCommand, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=OneTime}"
+                                        CommandParameter="{Binding}"
                                         Visibility="Hidden">
                                         <Button.Content>
-                                          <ui:FontIcon Foreground="IndianRed" Icon="{x:Static ui:SegoeFluentIcons.Delete}" />
+                                          <ui:FontIcon Foreground="IndianRed" Icon="{x:Static ui:FluentSystemIcons.Delete_16_Regular}" />
                                         </Button.Content>
                                       </Button>
                                     </Grid>
@@ -843,18 +934,32 @@
                                       Background="Transparent"
                                       BorderBrush="#33000000"
                                       BorderThickness="0.5">
-                                      <Grid Margin="4,0,0,0">
+                                      <Grid Margin="2,0,0,0">
                                         <Grid.RowDefinitions>
                                           <RowDefinition Height="Auto" />
                                           <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
                                         <ikw:SimpleStackPanel Grid.Row="0" Orientation="Horizontal">
-                                          <TextBlock VerticalAlignment="Center" Text="变量:" />
-                                          <TextBlock Text="test" />
+                                          <TextBlock
+                                            VerticalAlignment="Center"
+                                            FontFamily="Consolas"
+                                            FontSize="12"
+                                            Text="变量ID:" />
+                                          <TextBlock
+                                            Margin="2,0,0,0"
+                                            FontSize="12"
+                                            Text="{Binding ID, Mode=OneTime}" />
                                         </ikw:SimpleStackPanel>
                                         <ikw:SimpleStackPanel Grid.Row="1" Orientation="Horizontal">
-                                          <TextBlock VerticalAlignment="Center" Text="地址:" />
-                                          <TextBlock Text="test" />
+                                          <TextBlock
+                                            VerticalAlignment="Center"
+                                            FontFamily="Consolas"
+                                            FontSize="12"
+                                            Text="类  型:" />
+                                          <TextBlock
+                                            Margin="2,0,0,0"
+                                            FontSize="12"
+                                            Text="{Binding Type, Mode=OneTime}" />
                                         </ikw:SimpleStackPanel>
                                       </Grid>
                                     </Border>
@@ -872,7 +977,7 @@
                             </DataTemplate>
                           </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                        <Button HorizontalAlignment="Stretch">
+                        <Button HorizontalAlignment="Stretch" Command="{Binding AddChartDataInfoCommand}">
                           <Button.Content>
                             <ikw:SimpleStackPanel Orientation="Horizontal">
                               <ui:FontIcon Foreground="MediumPurple" Icon="{x:Static ui:SegoeFluentIcons.Add}" />
@@ -924,7 +1029,7 @@
             ExpandDirection="Down"
             IsExpanded="{Binding IsOutputExpanded}">
             <Expander.Header>
-              <Label Content="输出区:" FontSize="20" />
+              <TextBlock FontSize="20" Text="输出区:" />
             </Expander.Header>
             <Expander.Content>
               <Grid>
@@ -982,29 +1087,52 @@
           <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <!--  左侧：固件版本等信息  -->
+        <!--  左侧：连接状态信息  -->
         <StackPanel
           Grid.Column="0"
           Margin="8,0,0,0"
           Orientation="Horizontal">
           <ui:FontIcon Foreground="MediumPurple" Icon="{x:Static ui:SegoeFluentIcons.Connected}" />
-          <Label
+          <TextBlock
             Margin="4,0,0,0"
-            Content="状态: "
-            Foreground="Gray" />
-          <Label Margin="2,0,0,0" Content="未连接" />
+            Foreground="Gray"
+            Text="状态: " />
+          <TextBlock Margin="2,0,0,0">
+            <TextBlock.Style>
+              <Style TargetType="TextBlock">
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding IsConnected, Mode=OneWay}" Value="True">
+                    <Setter Property="Text" Value="已连接" />
+                    <Setter Property="Foreground" Value="MediumSeaGreen" />
+                  </DataTrigger>
+                  <DataTrigger Binding="{Binding IsConnected, Mode=OneWay}" Value="False">
+                    <Setter Property="Text" Value="未连接" />
+                    <Setter Property="Foreground" Value="PaleVioletRed" />
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </TextBlock.Style>
+          </TextBlock>
         </StackPanel>
 
         <!--  右侧：发送/接收帧计数  -->
-        <StackPanel
-          Grid.Column="1"
-          Margin="0,0,8,0"
-          Orientation="Horizontal">
-          <Label Content="Tx: " Foreground="Gray" />
-          <Label Margin="4,0,16,0" Content="0" />
-          <Label Content="Rx: " Foreground="Gray" />
-          <Label Margin="4,0,0,0" Content="0" />
-        </StackPanel>
+        <Grid Grid.Column="1" Margin="0,0,8,0">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <ikw:SimpleStackPanel
+            Grid.Column="0"
+            Margin="0,0,12,0"
+            Orientation="Horizontal">
+            <TextBlock Foreground="Gray" Text="Tx: " />
+            <TextBlock Margin="4,0,0,0" Text="{Binding TxPacketCount, Mode=OneWay}" />
+          </ikw:SimpleStackPanel>
+          <ikw:SimpleStackPanel Grid.Column="1" Orientation="Horizontal">
+            <TextBlock Foreground="Gray" Text="Rx: " />
+            <TextBlock Margin="4,0,0,0" Text="{Binding RxPacketCount, Mode=OneWay}" />
+          </ikw:SimpleStackPanel>
+        </Grid>
       </Grid>
     </StatusBar>
   </Grid>

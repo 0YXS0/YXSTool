@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using iNKORE.UI.WPF.Modern.Controls;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.IO.Ports;
@@ -94,7 +95,7 @@ internal partial class FocToolViewModel : ObservableObject
         }
     }
     [RelayCommand]
-    private async Task UpdateFirmloader( )
+    private async Task UpdateFirmware( )
     {
         if(!Path.Exists(FirmwareFilePath)) return;
         var dialog = new UpdateFirmwareView( );
@@ -119,31 +120,97 @@ internal partial class FocToolViewModel : ObservableObject
     [ObservableProperty]
     private int m_SelectedPIDIndex = 2;
 
-    public partial class ChartDataInfo : ObservableObject
+    public partial class ChartDataInfo(DataInfo info) : ObservableObject
     {
         [ObservableProperty]
-        private bool m_IsShow;
+        private bool m_IsShow = true;
 
         [ObservableProperty]
-        private string m_Name = string.Empty;
+        private bool m_IsAutoUpdate = true;
 
-        public ChartDataInfo(bool isShow, string name)
+        [ObservableProperty]
+        private DataType m_Type = info.Type;
+
+        [ObservableProperty]
+        private string m_Name = info.Name;
+
+        [ObservableProperty]
+        private int m_ID = info.ID;
+
+        [ObservableProperty]
+        private string m_ValueAsStr = "0.000000";
+    }
+
+    [ObservableProperty]
+    private int m_DeviceDataUpdataPeriod = 100;
+
+    [ObservableProperty]
+    public ObservableCollection<ChartDataInfo> m_DeviceDataInfos =
+    [
+        new ChartDataInfo(new DataInfo(DataType.Int8, "电流IQ", 0x00)),
+        new ChartDataInfo(new DataInfo(DataType.UInt8, "电流ID", 0x01)),
+        new ChartDataInfo(new DataInfo(DataType.Int16, "速度", 0x02)),
+        new ChartDataInfo(new DataInfo(DataType.UInt16, "位置", 0x03)),
+    ];
+    [RelayCommand]
+    private void SetDataAutoUpdata(ChartDataInfo info)
+    {
+        info.IsAutoUpdate = !info.IsAutoUpdate;
+    }
+    [RelayCommand]
+    public async Task AddDeviceDataInfo( )
+    {
+        var dialog = new AddDataInfoView( );
+        var res = await dialog.ShowAsync( );
+        if(res == ContentDialogResult.Primary)
         {
-            IsShow = isShow;
-            Name = name;
+            var info = dialog.ViewModel.ToDataInfo( );
+            if(!DeviceDataInfos.Any(x => x.ID == info.ID))
+            {
+                var dataInfo = new ChartDataInfo(info);
+                DeviceDataInfos.Add(dataInfo);
+            }
         }
     }
+    [RelayCommand]
+    private void DelateDeviceDataInfo(ChartDataInfo info)
+    {
+        DeviceDataInfos.Remove(info);
+    }
+
+    [ObservableProperty]
+    private int m_ChartDataBufferSize = 50000;
     [ObservableProperty]
     public ObservableCollection<ChartDataInfo> m_ChartDataInfos =
     [
-        new ChartDataInfo(true, "电流IQ"),
-        new ChartDataInfo(true, "电流ID"),
-        new ChartDataInfo(false, "速度"),
-        new ChartDataInfo(false, "位置"),
+        new ChartDataInfo(new DataInfo(DataType.Int8, "电流IQ", 0x00)),
+        new ChartDataInfo(new DataInfo(DataType.UInt8, "电流ID", 0x01)),
+        new ChartDataInfo(new DataInfo(DataType.Int16, "速度", 0x02)),
+        new ChartDataInfo(new DataInfo(DataType.UInt16, "位置", 0x03)),
     ];
     [RelayCommand]
-    private void AddChartDataInfo(ChartDataInfo info)
-    { }
+    public async Task AddChartDataInfo( )
+    {
+        var dialog = new AddDataInfoView( );
+        var res = await dialog.ShowAsync( );
+        if(res == ContentDialogResult.Primary)
+        {
+            var info = dialog.ViewModel.ToDataInfo( );
+            if(DeviceDataInfos.Any(x => x.ID == info.ID))
+            {
+                var dataInfo = DeviceDataInfos.First(x => x.ID == info.ID);
+                if(!ChartDataInfos.Any(x => x.ID == info.ID))
+                    ChartDataInfos.Add(dataInfo);
+            }
+            else
+            {
+                var dataInfo = new ChartDataInfo(info);
+                if(!DeviceDataInfos.Any(x => x.ID == info.ID))
+                    ChartDataInfos.Add(dataInfo);
+                DeviceDataInfos.Add(dataInfo);
+            }
+        }
+    }
     [RelayCommand]
     private void ShowOrHideChartDataInfo(ChartDataInfo info)
     {
@@ -222,4 +289,9 @@ internal partial class FocToolViewModel : ObservableObject
         }
     }
     #endregion
+
+    [ObservableProperty]
+    private uint m_TxPacketCount = 0;
+    [ObservableProperty]
+    private uint m_RxPacketCount = 0;
 }
